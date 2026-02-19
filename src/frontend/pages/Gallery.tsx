@@ -1,0 +1,92 @@
+import { useState, useMemo } from 'react';
+import { ArrowLeft } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { galleryItems, galleryCategories, type GalleryItem } from '@/data/gallery';
+import GalleryGrid from '@/components/GalleryGrid';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+
+const ITEMS_PER_PAGE = 12;
+
+const GalleryPage = () => {
+  const [activeCategory, setActiveCategory] = useState<string>('All');
+  const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
+
+  const filtered = useMemo<GalleryItem[]>(() => {
+    if (activeCategory === 'All') return galleryItems;
+    return galleryItems.filter((item) => item.category === activeCategory);
+  }, [activeCategory]);
+
+  const visible = filtered.slice(0, visibleCount);
+  const hasMore = visibleCount < filtered.length;
+
+  const handleCategoryChange = (cat: string) => {
+    setActiveCategory(cat);
+    setVisibleCount(ITEMS_PER_PAGE);
+  };
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Header />
+      <main className="pt-24 pb-24">
+        <div className="container mx-auto px-6">
+          {/* Back + Header */}
+          <div className="mb-12">
+            <Button asChild variant="ghost" className="mb-6 gap-2 text-muted-foreground hover:text-foreground -ml-3">
+              <Link to="/#portfolio">
+                <ArrowLeft className="w-4 h-4" />
+                Back to Home
+              </Link>
+            </Button>
+            <span className="text-primary font-semibold text-sm uppercase tracking-wider">Portfolio</span>
+            <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mt-3">
+              Our Work
+            </h1>
+            <p className="text-muted-foreground mt-4 max-w-2xl">
+              Browse our complete collection of real estate photography, videography, drone shots, and short-form content.
+            </p>
+          </div>
+
+          {/* Category Filters */}
+          <div className="flex flex-wrap gap-2 mb-10">
+            {galleryCategories.map((cat) => (
+              <Badge
+                key={cat}
+                variant={activeCategory === cat ? 'default' : 'outline'}
+                className={`cursor-pointer text-sm px-4 py-2 transition-colors ${
+                  activeCategory === cat
+                    ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                    : 'text-foreground hover:bg-accent'
+                }`}
+                onClick={() => handleCategoryChange(cat)}
+              >
+                {cat}
+              </Badge>
+            ))}
+          </div>
+
+          {/* Grid */}
+          <GalleryGrid items={visible} columns={4} />
+
+          {/* Load More */}
+          {hasMore && (
+            <div className="flex justify-center mt-12">
+              <Button
+                onClick={() => setVisibleCount((c) => c + ITEMS_PER_PAGE)}
+                variant="outline"
+                className="gap-2 px-8"
+              >
+                Load more
+              </Button>
+            </div>
+          )}
+        </div>
+      </main>
+      <Footer />
+    </div>
+  );
+};
+
+export default GalleryPage;
