@@ -1,31 +1,12 @@
 import { ArrowUpRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import portfolio1 from '@/assets/portfolio-1.jpg';
-import portfolio2 from '@/assets/portfolio-2.jpg';
-import portfolio3 from '@/assets/portfolio-3.jpg';
-
-const portfolioItems = [
-  {
-    image: portfolio1,
-    title: 'Penthouse Living Room',
-    category: 'Interior Photography',
-    location: 'Toronto, ON',
-  },
-  {
-    image: portfolio2,
-    title: 'Modern Kitchen Design',
-    category: 'Interior Photography',
-    location: 'Vancouver, BC',
-  },
-  {
-    image: portfolio3,
-    title: 'Luxury Estate Aerial',
-    category: 'Drone Photography',
-    location: 'Oakville, ON',
-  },
-];
+import { Link } from 'react-router-dom';
+import { galleryItems } from '@/data/gallery';
+import GalleryGrid from '@/components/GalleryGrid';
 
 const Portfolio = () => {
+  const previewItems = galleryItems.slice(0, 6);
+
   return (
     <section id="portfolio" className="py-24 bg-secondary">
       <div className="container mx-auto px-6">
@@ -37,44 +18,25 @@ const Portfolio = () => {
               Our Recent Work
             </h2>
           </div>
-          <Button variant="outline" className="border-secondary-foreground/30 text-secondary-foreground hover:bg-secondary-foreground/10 gap-2 self-start md:self-auto">
-            View All Projects
-            <ArrowUpRight className="w-4 h-4" />
+          <Button asChild variant="outline" className="border-secondary-foreground/30 text-secondary-foreground hover:bg-secondary-foreground/10 gap-2 self-start md:self-auto">
+            <Link to="/gallery">
+              View All Projects
+              <ArrowUpRight className="w-4 h-4" />
+            </Link>
           </Button>
         </div>
 
-        {/* Portfolio Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {portfolioItems.map((item, index) => (
-            <div
-              key={item.title}
-              className="group relative overflow-hidden rounded-lg cursor-pointer"
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              {/* Image */}
-              <div className="aspect-[4/3] overflow-hidden">
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                />
-              </div>
+        {/* Gallery Grid */}
+        <GalleryGrid items={previewItems} columns={3} />
 
-              {/* Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-secondary via-secondary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <span className="text-primary text-sm font-medium">{item.category}</span>
-                  <h3 className="font-display text-xl font-bold text-secondary-foreground mt-1">{item.title}</h3>
-                  <p className="text-secondary-foreground/70 text-sm mt-1">{item.location}</p>
-                </div>
-              </div>
-
-              {/* Arrow */}
-              <div className="absolute top-4 right-4 w-10 h-10 bg-primary rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:scale-100 scale-75">
-                <ArrowUpRight className="w-5 h-5 text-primary-foreground" />
-              </div>
-            </div>
-          ))}
+        {/* See More */}
+        <div className="flex justify-center mt-12">
+          <Button asChild className="bg-gradient-red hover:opacity-90 text-primary-foreground gap-2 px-8">
+            <Link to="/gallery">
+              See more
+              <ArrowUpRight className="w-4 h-4" />
+            </Link>
+          </Button>
         </div>
 
         {/* Trust Badges */}
