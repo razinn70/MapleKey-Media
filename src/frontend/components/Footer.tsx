@@ -20,7 +20,7 @@ const Footer = () => {
       { label: 'Contact', href: '#contact' },
     ],
     support: [
-      { label: 'FAQ', href: '#' },
+      { label: 'FAQ', href: '/learn-more' },
       { label: 'Scheduling', href: '#pricing' },
       { label: 'Delivery', href: '#' },
     ],
