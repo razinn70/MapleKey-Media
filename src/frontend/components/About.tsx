@@ -47,20 +47,20 @@ const About = () => {
           {/* Stats Cards */}
           <div className="grid grid-cols-2 gap-6">
             <div className="bg-secondary rounded-lg p-8 text-center">
-              <div className="text-5xl font-bold text-primary mb-2">10+</div>
-              <div className="text-secondary-foreground font-medium">Years Experience</div>
+              <div className="text-5xl font-bold text-primary mb-2">500+</div>
+              <div className="text-secondary-foreground font-medium">Properties Shot</div>
             </div>
             <div className="bg-muted rounded-lg p-8 text-center">
-              <div className="text-5xl font-bold text-foreground mb-2">50+</div>
-              <div className="text-muted-foreground font-medium">Team Members</div>
+              <div className="text-5xl font-bold text-foreground mb-2">48h</div>
+              <div className="text-muted-foreground font-medium">Avg. Turnaround</div>
             </div>
             <div className="bg-muted rounded-lg p-8 text-center">
-              <div className="text-5xl font-bold text-foreground mb-2">12</div>
-              <div className="text-muted-foreground font-medium">Cities Covered</div>
+              <div className="text-5xl font-bold text-foreground mb-2">12+</div>
+              <div className="text-muted-foreground font-medium">Cities Served</div>
             </div>
             <div className="bg-secondary rounded-lg p-8 text-center">
-              <div className="text-5xl font-bold text-primary mb-2">$5B+</div>
-              <div className="text-secondary-foreground font-medium">Property Value Shot</div>
+              <div className="text-5xl font-bold text-primary mb-2">98%</div>
+              <div className="text-secondary-foreground font-medium">Client Satisfaction</div>
             </div>
           </div>
         </div>
