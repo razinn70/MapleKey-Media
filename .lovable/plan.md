@@ -1,154 +1,75 @@
 
 
-# MapleKey Media — Structured Refinement Plan
+# Combine Pricing + Booking Into One Unified Section
 
-## Architecture Audit Summary
+## Overview
 
-**Stack**: Vite + React 18 + TypeScript + Tailwind CSS + shadcn/ui
-**Routing**: React Router v6 (BrowserRouter)
-**Structure**: `src/frontend/` (SPA) + `src/backend/` (scaffolded, empty)
-**Data**: All content hardcoded in component files (services in Services.tsx, stats in Hero.tsx, contact info in Contact.tsx)
-**Gallery**: Already has GalleryGrid, GalleryLightbox, and /gallery page with filtering + load more
+Merge the separate "Pricing" and "Book Now" sections into a single tabbed section. Users pick their package and add-ons, then switch to a booking tab to schedule -- with their pricing selection carried through. This creates a smoother flow: **configure your package, then book it**.
 
-### Issues Found
-- Services data hardcoded inside Services.tsx
-- Stats data hardcoded inside Hero.tsx
-- Contact info (fake address, placeholder phone/email) hardcoded in Contact.tsx
-- Hero copy is generic placeholder text
-- No pricing section exists
-- NavLink.tsx is unused
-- Gallery system already exists and is well-structured (Phase 6 is mostly done)
+## How It Works
 
----
+The combined section will use **shadcn Tabs** (already installed via `@radix-ui/react-tabs`) with two tabs:
 
-## Phase 1 — Data Extraction + New Data Files
+1. **"Pricing" tab** -- The existing package cards, add-on checkboxes, and estimated total
+2. **"Book Now" tab** -- The existing booking form (date picker, contact details, submit)
 
-Create centralized data files to eliminate hardcoded content:
+The selected package and add-ons from the Pricing tab carry over into the Booking tab, so the user sees their selection summary while filling out the form. The booking form's "Step 1: Select a Service" radio group is removed since the package is already chosen.
 
-**`src/frontend/data/services.ts`** — All 6 service definitions with icons, descriptions, and features. Replace bottom 3 services:
-- Floor Plans --> Short-Form Video Content
-- Virtual Staging --> Meta Ads and Paid Growth
-- 3D Virtual Tours remains, but add: Lead Funnel and Booking Systems
+## Technical Plan
 
-**`src/frontend/data/stats.ts`** — Updated stats:
-- 403% — More inquiries with video listings
-- 86% — Of buyers use online video during their home search
-- 24hr — Average turnaround
-- 100% — Client satisfaction
+### 1. Create a new combined component: `PricingAndBooking.tsx`
 
-**`src/frontend/data/pricing.ts`** — Package tiers with base prices and add-on definitions (price, label, id).
+- Single `<section id="pricing">` with a shared header
+- Uses shadcn `Tabs` with two triggers: "Packages & Pricing" and "Book Your Session"
+- Shared state: `selectedPackageId`, `selectedAddOnIds` lifted to this component
+- Passes pricing state down to both tab contents
+- The Booking tab shows a summary card of the selected package + add-ons + total at the top, then the date/details form below
 
-**`src/frontend/data/contact.ts`** — Centralized contact info:
-- Phone: 519-503-3479
-- Email: maplekeymedia@gmail.com
-- Service area: Kitchener-Waterloo Region and Surrounding Areas
-- No physical address
+### 2. Refactor existing components into sub-components
 
----
+- Extract pricing content (package cards, add-ons, total) into an inline section within the Pricing tab
+- Extract booking form (date, details, submit) into the Book Now tab -- remove the redundant service selection step
+- Keep the confirmation dialog
 
-## Phase 2 — Hero Refinement
+### 3. Update navigation
 
-Update `Hero.tsx` with new copy only (layout stays the same):
+- **Header**: Merge "Pricing" and "Book Now" into a single "Pricing" nav link pointing to `#pricing`
+- **Footer**: Update any "Book Now" links to point to `#pricing`
+- Remove the separate `#booking` anchor
 
-- **Headline**: "Modern Media & Marketing for Real Estate Professionals"
-- **Subheadline**: The provided paragraph about helping realtors in southern Ontario
-- **Body text**: Add the second paragraph about the team specializing in photography, videography, etc.
-- **Stats**: Import from `data/stats.ts` instead of inline array
-- **Image**: Already uses local asset import with object-cover; add `loading="lazy"` attribute and explicit width/height for CLS prevention
+### 4. Update Index.tsx
 
----
+- Remove the separate `<Booking />` and `<PricingCalculator />` imports
+- Replace with single `<PricingAndBooking />`
 
-## Phase 3 — Services Restructure
+### 5. Delete old files
 
-Refactor `Services.tsx`:
-- Import service data from `data/services.ts`
-- Updated service list (keep top 3: HDR Photography, Video Tours, Drone Aerial; replace bottom 3 with Short-Form Video Content, Meta Ads and Paid Growth, Lead Funnel and Booking Systems)
-- Component remains a clean grid renderer with no hardcoded copy
+- `src/frontend/components/PricingCalculator.tsx`
+- `src/frontend/components/Booking.tsx`
 
----
+## Section Layout
 
-## Phase 4 — Pricing Calculator
+```text
++--------------------------------------------------+
+|  PRICING & BOOKING                                |
+|  "Choose Your Package & Book Your Session"        |
+|                                                   |
+|  [ Packages & Pricing ]  [ Book Your Session ]    |
+|  ------------------------------------------------ |
+|                                                   |
+|  (Tab 1: Package cards, add-ons, total)           |
+|  (Tab 2: Summary card + date/details/submit)      |
++--------------------------------------------------+
+```
 
-Create new components:
+## Files Changed
 
-**`src/frontend/data/pricing.ts`**:
-- Base packages array: each with id, name, description, basePrice, included features list
-- Add-ons array: each with id, label, price
-
-**`src/frontend/components/PricingCalculator.tsx`**:
-- Select a base package (radio/card selection)
-- Toggle add-on checkboxes with +$ values
-- Pure function `calculateTotal(basePrice, selectedAddOns)` computes estimated total
-- Real-time display: "Base: $X + Add-ons: $Y = Estimated Total: $Z"
-- Clean, professional card-based layout matching existing design language
-- Informational only, no checkout
-
-**`src/frontend/utils/pricing.ts`**:
-- `calculateTotal()` pure function separated for testability
-
-Add Pricing section to Index.tsx page between Services and Portfolio.
-
----
-
-## Phase 5 — Contact Refinement
-
-Update `Contact.tsx`:
-- Import contact data from `data/contact.ts`
-- Remove the fake "123 King Street West" office address block
-- Replace with "Service Area: Kitchener-Waterloo Region and Surrounding Areas" using a MapPin icon
-- Update phone to 519-503-3479 (with proper tel: link)
-- Update email to maplekeymedia@gmail.com (with proper mailto: link)
-- Keep Hours block as-is
-
----
-
-## Phase 6 — Portfolio / Gallery
-
-The gallery system is already implemented with:
-- GalleryGrid (responsive columns, hover overlay)
-- GalleryLightbox (dialog with keyboard nav, captions)
-- /gallery page with category filtering + load more
-- data/gallery.ts with typed items
-
-No major changes needed. Minor cleanup:
-- Update Header nav "Portfolio" link to point to /gallery for consistency
-- Ensure Footer "Portfolio" link also goes to /gallery
-
----
-
-## Phase 7 — Cleanup
-
-- Delete `src/frontend/App.css` (unused legacy file)
-- Delete `src/frontend/components/NavLink.tsx` (unused wrapper)
-- Add `loading="lazy"` to hero image
-- Update Footer service links to reflect the new 6 services
-- Update CHECKLIST.md to reflect completed items
-- Add "Pricing" to Header nav links
-
----
-
-## Technical Details
-
-### New files to create:
-1. `src/frontend/data/services.ts`
-2. `src/frontend/data/stats.ts`
-3. `src/frontend/data/pricing.ts`
-4. `src/frontend/data/contact.ts`
-5. `src/frontend/components/PricingCalculator.tsx`
-6. `src/frontend/utils/pricing.ts`
-
-### Files to modify:
-1. `src/frontend/components/Hero.tsx` — new copy + stats import + lazy load
-2. `src/frontend/components/Services.tsx` — import from data file
-3. `src/frontend/components/Contact.tsx` — new contact info, remove address
-4. `src/frontend/components/Header.tsx` — add "Pricing" nav link
-5. `src/frontend/components/Footer.tsx` — update service links
-6. `src/frontend/pages/Index.tsx` — add PricingCalculator section
-7. `CHECKLIST.md` — mark completed items
-
-### Files to delete:
-1. `src/frontend/App.css`
-2. `src/frontend/components/NavLink.tsx`
-
-### No new dependencies required.
+| File | Action |
+|------|--------|
+| `src/frontend/components/PricingAndBooking.tsx` | Create -- combined tabbed component |
+| `src/frontend/components/PricingCalculator.tsx` | Delete |
+| `src/frontend/components/Booking.tsx` | Delete |
+| `src/frontend/pages/Index.tsx` | Update -- swap imports |
+| `src/frontend/components/Header.tsx` | Update -- remove "Book Now" nav link |
+| `src/frontend/components/Footer.tsx` | Update -- adjust links |
 
