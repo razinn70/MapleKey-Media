@@ -1,43 +1,4 @@
-import { Camera, Video, Plane, Box, Image, Sparkles } from 'lucide-react';
-
-const services = [
-  {
-    icon: Camera,
-    title: 'HDR Photography',
-    description: 'Professional HDR photography that captures every detail with stunning clarity and color accuracy.',
-    features: ['Interior & Exterior Shots', 'Twilight Photography', 'Same-Day Delivery'],
-  },
-  {
-    icon: Video,
-    title: 'Video Tours',
-    description: 'Cinematic property walkthroughs that tell a story and engage potential buyers emotionally.',
-    features: ['4K Ultra HD Quality', 'Licensed Music', 'Branded Videos'],
-  },
-  {
-    icon: Plane,
-    title: 'Drone Aerial',
-    description: 'Breathtaking aerial perspectives that showcase properties and their surroundings beautifully.',
-    features: ['FAA Certified Pilots', 'Neighborhood Context', 'Lot Size Display'],
-  },
-  {
-    icon: Box,
-    title: '3D Virtual Tours',
-    description: 'Immersive Matterport tours that let buyers explore properties from anywhere in the world.',
-    features: ['Interactive Floor Plans', '24/7 Open House', 'VR Compatible'],
-  },
-  {
-    icon: Image,
-    title: 'Floor Plans',
-    description: 'Detailed 2D and 3D floor plans that help buyers understand space and layout instantly.',
-    features: ['Accurate Measurements', 'Branded Options', 'Multiple Formats'],
-  },
-  {
-    icon: Sparkles,
-    title: 'Virtual Staging',
-    description: 'Transform empty spaces into beautifully furnished rooms with photorealistic virtual staging.',
-    features: ['Multiple Styles', 'Fast Turnaround', 'Unlimited Revisions'],
-  },
-];
+import { services } from '@/data/services';
 
 const Services = () => {
   return (

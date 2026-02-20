@@ -1,5 +1,6 @@
 import { ArrowRight, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { stats } from '@/data/stats';
 import heroImage from '@/assets/hero-property.jpg';
 
 const Hero = () => {
@@ -11,6 +12,9 @@ const Hero = () => {
           src={heroImage}
           alt="Luxury property photography"
           className="w-full h-full object-cover"
+          loading="lazy"
+          width={1920}
+          height={1080}
         />
         <div className="absolute inset-0 bg-hero-overlay" />
       </div>
@@ -26,13 +30,18 @@ const Hero = () => {
 
           {/* Headline */}
           <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-primary-foreground mb-6 animate-fade-up" style={{ animationDelay: '0.1s' }}>
-            Stunning Visuals That
-            <span className="block text-primary mt-2">Sell Properties Faster</span>
+            Modern Media & Marketing for
+            <span className="block text-primary mt-2">Real Estate Professionals</span>
           </h1>
 
           {/* Subheadline */}
-          <p className="text-lg sm:text-xl text-primary-foreground/80 max-w-2xl mx-auto mb-10 animate-fade-up" style={{ animationDelay: '0.2s' }}>
-            Professional photography, video tours, drone footage, and 3D virtual tours that showcase properties at their absolute best.
+          <p className="text-lg sm:text-xl text-primary-foreground/80 max-w-2xl mx-auto mb-6 animate-fade-up" style={{ animationDelay: '0.2s' }}>
+            MapleKey Media helps realtors and developers across southern Ontario attract buyers, generate qualified leads, and elevate their brand through strategic content and high-impact visual marketing.
+          </p>
+
+          {/* Body */}
+          <p className="text-base text-primary-foreground/60 max-w-2xl mx-auto mb-10 animate-fade-up" style={{ animationDelay: '0.25s' }}>
+            Our team specializes in real estate photography, videography, short-form content, and digital marketing systems designed to convert attention into opportunity. In today's market, visibility is everything — that's why we combine cinematic visuals with proven marketing strategy to help our clients stand out, sell faster, and build long-term authority.
           </p>
 
           {/* CTA Buttons */}
@@ -50,12 +59,7 @@ const Hero = () => {
 
         {/* Stats */}
         <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto animate-fade-up" style={{ animationDelay: '0.4s' }}>
-          {[
-            { value: '5,000+', label: 'Properties Photographed' },
-            { value: '500+', label: 'Real Estate Partners' },
-            { value: '24hr', label: 'Average Turnaround' },
-            { value: '98%', label: 'Client Satisfaction' },
-          ].map((stat) => (
+          {stats.map((stat) => (
             <div key={stat.label} className="text-center">
               <div className="text-3xl sm:text-4xl font-bold text-primary-foreground">{stat.value}</div>
               <div className="text-sm text-primary-foreground/60 mt-1">{stat.label}</div>
