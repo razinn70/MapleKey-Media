@@ -2,6 +2,7 @@ import { Mail, Phone, MapPin, Clock, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { contactInfo } from '@/data/contact';
 
 const Contact = () => {
   return (
@@ -26,8 +27,8 @@ const Contact = () => {
                 </div>
                 <div>
                   <div className="font-semibold text-foreground">Phone</div>
-                  <a href="tel:+14165551234" className="text-muted-foreground hover:text-primary transition-colors">
-                    +1 (416) 555-1234
+                  <a href={`tel:${contactInfo.phoneTel}`} className="text-muted-foreground hover:text-primary transition-colors">
+                    {contactInfo.phone}
                   </a>
                 </div>
               </div>
@@ -38,8 +39,8 @@ const Contact = () => {
                 </div>
                 <div>
                   <div className="font-semibold text-foreground">Email</div>
-                  <a href="mailto:info@maplekeymedia.ca" className="text-muted-foreground hover:text-primary transition-colors">
-                    info@maplekeymedia.ca
+                  <a href={`mailto:${contactInfo.email}`} className="text-muted-foreground hover:text-primary transition-colors">
+                    {contactInfo.email}
                   </a>
                 </div>
               </div>
@@ -49,8 +50,8 @@ const Contact = () => {
                   <MapPin className="w-5 h-5 text-primary" />
                 </div>
                 <div>
-                  <div className="font-semibold text-foreground">Office</div>
-                  <p className="text-muted-foreground">123 King Street West, Toronto, ON M5V 1J2</p>
+                  <div className="font-semibold text-foreground">Service Area</div>
+                  <p className="text-muted-foreground">{contactInfo.serviceArea}</p>
                 </div>
               </div>
 
@@ -60,7 +61,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <div className="font-semibold text-foreground">Hours</div>
-                  <p className="text-muted-foreground">Mon - Fri: 8am - 8pm | Sat: 9am - 5pm</p>
+                  <p className="text-muted-foreground">{contactInfo.hours}</p>
                 </div>
               </div>
             </div>
@@ -97,7 +98,7 @@ const Contact = () => {
                 <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-2">
                   Phone Number
                 </label>
-                <Input id="phone" type="tel" placeholder="+1 (416) 555-0000" />
+                <Input id="phone" type="tel" placeholder="+1 (519) 555-0000" />
               </div>
 
               <div>

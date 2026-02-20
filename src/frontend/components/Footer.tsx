@@ -6,24 +6,22 @@ const Footer = () => {
 
   const footerLinks = {
     services: [
-      { label: 'HDR Photography', href: '#' },
-      { label: 'Video Tours', href: '#' },
-      { label: 'Drone Aerial', href: '#' },
-      { label: '3D Virtual Tours', href: '#' },
-      { label: 'Floor Plans', href: '#' },
-      { label: 'Virtual Staging', href: '#' },
+      { label: 'HDR Photography', href: '#services' },
+      { label: 'Video Tours', href: '#services' },
+      { label: 'Drone Aerial', href: '#services' },
+      { label: 'Short-Form Video', href: '#services' },
+      { label: 'Meta Ads & Paid Growth', href: '#services' },
+      { label: 'Lead Funnels', href: '#services' },
     ],
     company: [
       { label: 'About Us', href: '#about' },
-      { label: 'Portfolio', href: '#portfolio' },
-      { label: 'Careers', href: '#' },
-      { label: 'Press', href: '#' },
+      { label: 'Portfolio', href: '/gallery' },
+      { label: 'Pricing', href: '#pricing' },
       { label: 'Contact', href: '#contact' },
     ],
     support: [
-      { label: 'Pricing', href: '#' },
       { label: 'FAQ', href: '#' },
-      { label: 'Scheduling', href: '#' },
+      { label: 'Scheduling', href: '#booking' },
       { label: 'Delivery', href: '#' },
     ],
   };
@@ -49,7 +47,7 @@ const Footer = () => {
               </div>
             </div>
             <p className="text-secondary-foreground/70 mb-6 max-w-md">
-              Canada's premier real estate photography company. We help agents and brokers market properties with stunning visual content.
+              Southern Ontario's premier real estate media company. We help agents and brokers market properties with stunning visual content and strategic marketing.
             </p>
             <div className="flex gap-4">
               {socialLinks.map((social) => (
