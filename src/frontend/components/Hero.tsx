@@ -30,18 +30,12 @@ const Hero = () => {
 
           {/* Headline */}
           <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-primary-foreground mb-6 animate-fade-up" style={{ animationDelay: '0.1s' }}>
-            Modern Media & Marketing for
-            <span className="block text-primary mt-2">Real Estate Professionals</span>
+            Turn Attention Into Appointments.
           </h1>
 
           {/* Subheadline */}
-          <p className="text-lg sm:text-xl text-primary-foreground/80 max-w-2xl mx-auto mb-6 animate-fade-up" style={{ animationDelay: '0.2s' }}>
-            MapleKey Media helps realtors and developers across southern Ontario attract buyers, generate qualified leads, and elevate their brand through strategic content and high-impact visual marketing.
-          </p>
-
-          {/* Body */}
-          <p className="text-base text-primary-foreground/60 max-w-2xl mx-auto mb-10 animate-fade-up" style={{ animationDelay: '0.25s' }}>
-            Our team specializes in real estate photography, videography, short-form content, and digital marketing systems designed to convert attention into opportunity. In today's market, visibility is everything — that's why we combine cinematic visuals with proven marketing strategy to help our clients stand out, sell faster, and build long-term authority.
+          <p className="text-lg sm:text-xl text-primary-foreground/80 max-w-2xl mx-auto mb-10 animate-fade-up" style={{ animationDelay: '0.2s' }}>
+            MapleKey Media builds content and marketing systems that help realtors and developers attract serious buyers, generate consistent inquiries, and accelerate sales.
           </p>
 
           {/* CTA Buttons */}

@@ -1,13 +1,14 @@
 import { CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 
 const features = [
-  'Fast 24-48 hour turnaround on all projects',
-  'Professional editing and color correction included',
-  'MLS-ready formats and optimized web delivery',
-  'Easy online scheduling and ordering system',
-  'Consistent quality across all media types',
-  'Dedicated account manager for enterprise clients',
+  '24–48 hour professional turnaround',
+  'Platform-optimized short-form content',
+  'Meta ad campaign setup & optimization',
+  'MLS-ready formats & web delivery',
+  'Structured lead capture & booking systems',
+  'Consistent branding across all media',
 ];
 
 const About = () => {
@@ -19,13 +20,13 @@ const About = () => {
           <div>
             <span className="text-primary font-semibold text-sm uppercase tracking-wider">About MapleKey Media</span>
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mt-3 mb-6">
-              Your Trusted Partner in Real Estate Marketing
+              A Strategic Partner in Modern Real Estate Marketing
             </h2>
             <p className="text-lg text-muted-foreground mb-6">
-              Since 2015, MapleKey Media has been helping real estate professionals across Canada showcase properties with stunning visual content that drives results.
+              MapleKey Media partners with realtors and developers across southern Ontario to deliver high-impact visual content and growth-driven marketing systems that generate measurable results.
             </p>
             <p className="text-muted-foreground mb-8">
-              Our team of professional photographers, videographers, and drone pilots are dedicated to delivering exceptional quality with industry-leading turnaround times. We understand that in real estate, time is money—that's why we prioritize efficiency without ever compromising on quality.
+              We don't just capture properties — we build strategic campaigns. From short-form video and cinematic photography to Meta advertising and automated booking funnels, every project is designed to attract serious buyers, increase engagement, and accelerate sales. In real estate, time is money. That's why we combine creative precision with operational efficiency — ensuring fast turnaround, consistent quality, and marketing that performs.
             </p>
 
             {/* Features List */}
@@ -38,8 +39,8 @@ const About = () => {
               ))}
             </ul>
 
-            <Button size="lg" className="bg-gradient-red hover:opacity-90 text-primary-foreground font-semibold px-8">
-              Learn More About Us
+            <Button size="lg" asChild className="bg-gradient-red hover:opacity-90 text-primary-foreground font-semibold px-8">
+              <Link to="/learn-more">Learn More About Us</Link>
             </Button>
           </div>
 
