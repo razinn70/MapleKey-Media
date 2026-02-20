@@ -21,7 +21,7 @@ const Footer = () => {
     ],
     support: [
       { label: 'FAQ', href: '#' },
-      { label: 'Scheduling', href: '#booking' },
+      { label: 'Scheduling', href: '#pricing' },
       { label: 'Delivery', href: '#' },
     ],
   };
