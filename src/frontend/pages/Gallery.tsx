@@ -2,7 +2,6 @@ import { useState, useMemo } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { galleryItems, galleryCategories, type GalleryItem } from '@/data/gallery';
 import GalleryGrid from '@/components/GalleryGrid';
 import Header from '@/components/Header';
@@ -52,18 +51,17 @@ const GalleryPage = () => {
           {/* Category Filters */}
           <div className="flex flex-wrap gap-2 mb-10">
             {galleryCategories.map((cat) => (
-              <Badge
+              <button
                 key={cat}
-                variant={activeCategory === cat ? 'default' : 'outline'}
-                className={`cursor-pointer text-sm px-4 py-2 transition-colors ${
-                  activeCategory === cat
-                    ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-                    : 'text-foreground hover:bg-accent'
-                }`}
                 onClick={() => handleCategoryChange(cat)}
+                className={`inline-flex items-center rounded-full border px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
+                  activeCategory === cat
+                    ? 'bg-primary text-primary-foreground border-primary hover:bg-primary/90'
+                    : 'border-border text-foreground hover:bg-accent'
+                }`}
               >
                 {cat}
-              </Badge>
+              </button>
             ))}
           </div>
 

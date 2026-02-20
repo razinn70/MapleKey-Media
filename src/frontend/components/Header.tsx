@@ -42,8 +42,8 @@ const Header = () => {
 
           {/* CTA Button */}
           <div className="hidden md:block">
-            <Button variant="default" className="bg-gradient-red hover:opacity-90 text-primary-foreground font-semibold px-6">
-              Get a Quote
+          <Button variant="default" asChild className="bg-gradient-red hover:opacity-90 text-primary-foreground font-semibold px-6">
+              <a href="#pricing">Get a Quote</a>
             </Button>
           </div>
 
@@ -70,8 +70,8 @@ const Header = () => {
                   {link.label}
                 </a>
               ))}
-              <Button variant="default" className="bg-gradient-red hover:opacity-90 text-primary-foreground font-semibold mt-2">
-                Get a Quote
+              <Button variant="default" asChild className="bg-gradient-red hover:opacity-90 text-primary-foreground font-semibold mt-2">
+                <a href="#pricing">Get a Quote</a>
               </Button>
             </nav>
           </div>

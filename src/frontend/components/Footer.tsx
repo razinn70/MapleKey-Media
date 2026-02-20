@@ -20,9 +20,9 @@ const Footer = () => {
       { label: 'Contact', href: '#contact' },
     ],
     support: [
-      { label: 'FAQ', href: '/learn-more' },
+      { label: 'FAQ', href: '/learn-more#faq' },
       { label: 'Scheduling', href: '#pricing' },
-      { label: 'Delivery', href: '#' },
+      { label: 'Delivery Info', href: '/learn-more#faq' },
     ],
   };
 
@@ -113,8 +113,8 @@ const Footer = () => {
               © {currentYear} MapleKey Media Inc. All rights reserved.
             </p>
             <div className="flex gap-6 text-sm">
-              <a href="#" className="text-secondary-foreground/60 hover:text-primary transition-colors">Privacy Policy</a>
-              <a href="#" className="text-secondary-foreground/60 hover:text-primary transition-colors">Terms of Service</a>
+              <a href="/privacy" className="text-secondary-foreground/60 hover:text-primary transition-colors">Privacy Policy</a>
+              <a href="/terms" className="text-secondary-foreground/60 hover:text-primary transition-colors">Terms of Service</a>
             </div>
           </div>
         </div>
