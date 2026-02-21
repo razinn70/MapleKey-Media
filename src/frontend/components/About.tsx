@@ -2,6 +2,13 @@ import { CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 
+const industryStats = [
+  { value: '95%', label: 'Homebuyers search online during the home buying process' },
+  { value: '51%', label: 'Buyers find the home they purchase online' },
+  { value: '76%', label: 'Buyers use a mobile device during their home search' },
+  { value: '70%+', label: 'Buyers say listing photos are the most important factor when viewing a property online' },
+];
+
 const features = [
   '24–48 hour professional turnaround',
   'Platform-optimized short-form content',
@@ -44,24 +51,17 @@ const About = () => {
             </Button>
           </div>
 
-          {/* Stats Cards */}
+          {/* Industry Stats Cards */}
           <div className="grid grid-cols-2 gap-6">
-            <div className="bg-secondary rounded-lg p-8 text-center">
-              <div className="text-5xl font-bold text-primary mb-2">500+</div>
-              <div className="text-secondary-foreground font-medium">Properties Shot</div>
-            </div>
-            <div className="bg-muted rounded-lg p-8 text-center">
-              <div className="text-5xl font-bold text-foreground mb-2">48h</div>
-              <div className="text-muted-foreground font-medium">Avg. Turnaround</div>
-            </div>
-            <div className="bg-muted rounded-lg p-8 text-center">
-              <div className="text-5xl font-bold text-foreground mb-2">12+</div>
-              <div className="text-muted-foreground font-medium">Cities Served</div>
-            </div>
-            <div className="bg-secondary rounded-lg p-8 text-center">
-              <div className="text-5xl font-bold text-primary mb-2">98%</div>
-              <div className="text-secondary-foreground font-medium">Client Satisfaction</div>
-            </div>
+            {industryStats.map((stat, i) => {
+              const isAccent = i % 2 === 0;
+              return (
+                <div key={stat.value} className={`${isAccent ? 'bg-secondary' : 'bg-muted'} rounded-lg p-8 text-center`}>
+                  <div className={`text-5xl font-bold ${isAccent ? 'text-primary' : 'text-foreground'} mb-2`}>{stat.value}</div>
+                  <div className={`${isAccent ? 'text-secondary-foreground' : 'text-muted-foreground'} font-medium text-sm`}>{stat.label}</div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
