@@ -3,8 +3,31 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { contactInfo } from '@/data/contact';
+import { FormEvent, useRef } from 'react';
 
 const Contact = () => {
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = formRef.current;
+    if (!form) return;
+
+    const data = new FormData(form);
+    const firstName = data.get('firstName') as string;
+    const lastName = data.get('lastName') as string;
+    const email = data.get('email') as string;
+    const phone = data.get('phone') as string;
+    const message = data.get('message') as string;
+
+    const subject = encodeURIComponent(`Inquiry from ${firstName} ${lastName}`);
+    const body = encodeURIComponent(
+      `Name: ${firstName} ${lastName}\nEmail: ${email}\nPhone: ${phone}\n\n${message}`
+    );
+
+    window.location.href = `mailto:${contactInfo.email}?subject=${subject}&body=${body}`;
+  };
+
   return (
     <section id="contact" className="py-24 bg-muted/50">
       <div className="container mx-auto px-6">
@@ -71,19 +94,19 @@ const Contact = () => {
           <div className="bg-card rounded-lg p-8 shadow-elevated border border-border">
             <h3 className="font-display text-2xl font-bold text-foreground mb-6">Send Us a Message</h3>
             
-            <form className="space-y-6">
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="firstName" className="block text-sm font-medium text-foreground mb-2">
                     First Name
                   </label>
-                  <Input id="firstName" placeholder="John" />
+                  <Input id="firstName" name="firstName" placeholder="John" required />
                 </div>
                 <div>
                   <label htmlFor="lastName" className="block text-sm font-medium text-foreground mb-2">
                     Last Name
                   </label>
-                  <Input id="lastName" placeholder="Doe" />
+                  <Input id="lastName" name="lastName" placeholder="Doe" required />
                 </div>
               </div>
 
@@ -91,21 +114,21 @@ const Contact = () => {
                 <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
                   Email Address
                 </label>
-                <Input id="email" type="email" placeholder="john@example.com" />
+                <Input id="email" name="email" type="email" placeholder="john@example.com" required />
               </div>
 
               <div>
                 <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-2">
                   Phone Number
                 </label>
-                <Input id="phone" type="tel" placeholder="+1 (519) 555-0000" />
+                <Input id="phone" name="phone" type="tel" placeholder="+1 (519) 555-0000" />
               </div>
 
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
                   How Can We Help?
                 </label>
-                <Textarea id="message" placeholder="Tell us about your project..." rows={4} />
+                <Textarea id="message" name="message" placeholder="Tell us about your project..." rows={4} required />
               </div>
 
               <Button type="submit" size="lg" className="w-full bg-gradient-red hover:opacity-90 text-primary-foreground font-semibold gap-2">
