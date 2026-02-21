@@ -1,4 +1,4 @@
-import { ArrowRight, Play } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { stats } from '@/data/stats';
 import heroImage from '@/assets/hero-property.jpg';
@@ -38,15 +38,13 @@ const Hero = () => {
             MapleKey Media builds content and marketing systems that help realtors and developers attract serious buyers, generate consistent inquiries, and accelerate sales.
           </p>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-up" style={{ animationDelay: '0.3s' }}>
-            <Button size="lg" className="bg-gradient-red hover:opacity-90 text-primary-foreground font-semibold px-8 py-6 text-lg gap-2 group">
-              Book a Session
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
-            <Button size="lg" variant="outline" className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 font-semibold px-8 py-6 text-lg gap-2">
-              <Play className="w-5 h-5" />
-              View Showreel
+          {/* CTA Button */}
+          <div className="flex justify-center animate-fade-up" style={{ animationDelay: '0.3s' }}>
+            <Button asChild size="lg" className="bg-gradient-red hover:opacity-90 text-primary-foreground font-semibold px-8 py-6 text-lg gap-2 group">
+              <a href="#pricing">
+                Get a Quote
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </a>
             </Button>
           </div>
         </div>

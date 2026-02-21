@@ -4,8 +4,8 @@ export interface Stat {
 }
 
 export const stats: Stat[] = [
-  { value: '403%', label: 'More inquiries with video listings' },
-  { value: '86%', label: 'Of buyers use online video during their home search' },
-  { value: '24hr', label: 'Average turnaround' },
-  { value: '100%', label: 'Client satisfaction' },
+  { value: '95%', label: 'Homebuyers search online during the home buying process' },
+  { value: '51%', label: 'Buyers find the home they purchase online' },
+  { value: '76%', label: 'Buyers use a mobile device during their home search' },
+  { value: '70%+', label: 'Buyers say listing photos are the most important factor when viewing a property online' },
 ];
