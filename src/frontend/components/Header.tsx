@@ -1,18 +1,39 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import logo from '@/assets/logo.png';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const navLinks = [
-    { label: 'Services', href: '#services' },
-    { label: 'Pricing', href: '#pricing' },
-    { label: 'Portfolio', href: '#portfolio' },
-    { label: 'About', href: '#about' },
-    { label: 'Contact', href: '#contact' },
+    { label: 'Services', href: '/#services' },
+    { label: 'Pricing', href: '/#pricing' },
+    { label: 'Portfolio', href: '/#portfolio' },
+    { label: 'About', href: '/#about' },
+    { label: 'Contact', href: '/#contact' },
   ];
+
+  const handleNavClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+      e.preventDefault();
+      const hash = href.replace('/', '');
+      setIsMenuOpen(false);
+
+      if (location.pathname === '/') {
+        document.querySelector(hash)?.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        navigate('/');
+        setTimeout(() => {
+          document.querySelector(hash)?.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    },
+    [location.pathname, navigate]
+  );
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
@@ -33,6 +54,7 @@ const Header = () => {
               <a
                 key={link.label}
                 href={link.href}
+                onClick={(e) => handleNavClick(e, link.href)}
                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
               >
                 {link.label}
@@ -42,8 +64,8 @@ const Header = () => {
 
           {/* CTA Button */}
           <div className="hidden md:block">
-          <Button variant="default" asChild className="bg-gradient-red hover:opacity-90 text-primary-foreground font-semibold px-6">
-              <a href="#pricing">Get a Quote</a>
+            <Button variant="default" asChild className="bg-gradient-red hover:opacity-90 text-primary-foreground font-semibold px-6">
+              <a href="/#pricing" onClick={(e) => handleNavClick(e, '/#pricing')}>Get a Quote</a>
             </Button>
           </div>
 
@@ -65,13 +87,13 @@ const Header = () => {
                   key={link.label}
                   href={link.href}
                   className="text-base font-medium text-muted-foreground hover:text-foreground transition-colors"
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={(e) => handleNavClick(e, link.href)}
                 >
                   {link.label}
                 </a>
               ))}
               <Button variant="default" asChild className="bg-gradient-red hover:opacity-90 text-primary-foreground font-semibold mt-2">
-                <a href="#pricing">Get a Quote</a>
+                <a href="/#pricing" onClick={(e) => handleNavClick(e, '/#pricing')}>Get a Quote</a>
               </Button>
             </nav>
           </div>
