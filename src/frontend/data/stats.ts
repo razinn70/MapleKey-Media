@@ -4,8 +4,8 @@ export interface Stat {
 }
 
 export const stats: Stat[] = [
-  { value: '500+', label: 'Properties Shot' },
-  { value: '48h', label: 'Avg. Turnaround' },
-  { value: '12+', label: 'Cities Served' },
-  { value: '98%', label: 'Client Satisfaction' },
+  { value: '73%', label: 'Homeowners are more likely to list with a realtor who uses video' },
+  { value: '403%', label: 'More inquiries for listings with video' },
+  { value: '100%', label: 'Client satisfaction' },
+  { value: '24hr', label: 'Turnaround' },
 ];
