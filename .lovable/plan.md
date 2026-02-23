@@ -1,65 +1,61 @@
 
 
-# MapleKey Media — Stats Update + Nav Fix
+# MapleKey Media — Logo, Pricing & Add-Ons Update
 
-## Task 1: Replace Stats Content
+## Task 1: Replace Logo Asset
 
-Two locations use stats — the Hero section (from `data/stats.ts`) and the About section (hardcoded `industryStats` array). The user wants to update the stats that appear on the site.
+Copy the uploaded logo (`user-uploads://Untitled_design-2.jpg`) to `src/frontend/assets/logo.png` (overwriting the existing file).
 
-The Hero stats (from `data/stats.ts`) are the ones currently showing "500+, 48h, 12+, 98%". The About section has the industry stats in the black/grey boxes.
+Both `Header.tsx` and `Footer.tsx` already import from `@/assets/logo.png`, so no code changes are needed -- the new logo will appear automatically in both locations.
 
-### Changes
+Also copy to `public/logo.png` to keep the public asset in sync.
 
-**File: `src/frontend/data/stats.ts`** — Replace all 4 entries:
+## Task 2: Package Pricing Updates
 
-| Value | Label |
-|-------|-------|
-| 73% | Homeowners are more likely to list with a realtor who uses video |
-| 403% | More inquiries for listings with video |
-| 100% | Client satisfaction |
-| 24hr | Turnaround |
+**File: `src/frontend/data/pricing.ts`**
 
-**File: `src/frontend/components/About.tsx`** — No changes needed. The About section keeps its existing industry stats (95%, 51%, 76%, 70%+) in the black/grey boxes.
+Update the three packages:
 
-The Hero section already renders from `data/stats.ts` via the `stats` import, so updating the data file is all that's needed.
+| Current | New |
+|---------|-----|
+| Starter / $299 | Standard / $200 |
+| Professional / $599 | Professional / $450 |
+| Premium / $999 | Premium / $750 |
 
----
+Update the `id` for Starter from `'starter'` to `'standard'` and name from `'Starter'` to `'Standard'`.
 
-## Task 2: Fix Top Nav Links Across All Pages
+The `PricingAndBooking.tsx` component defaults to `packages[1].id` and renders dynamically from the data, so pricing cards, summary, and booking total will all update automatically.
 
-Currently, nav links use bare anchors like `#services`, `#pricing`, etc. These only work on the homepage. On other routes (e.g., `/learn-more`, `/gallery`), clicking them does nothing useful.
+## Task 3: Premium Package Content Change
 
-### Solution
+In the Premium package `included` array:
+- Remove `'Twilight Photography'`
+- Add `'Ad Consultation'`
 
-Update `Header.tsx` to:
-1. Change all nav `href` values to `/#services`, `/#pricing`, `/#portfolio`, `/#about`, `/#contact`
-2. Add an `onClick` handler that uses `react-router-dom`'s `useNavigate` to:
-   - If already on `/`, smooth-scroll to the section directly
-   - If on another route, navigate to `/` first, then scroll after a short delay for DOM render
-3. Apply the same fix to the "Get a Quote" CTA button (both desktop and mobile versions)
-4. Close the mobile menu on click (already handled, just ensure it persists)
+## Task 4: Add-Ons Pricing & Item Changes
 
-### Technical Detail
+Replace the entire `addOns` array with:
 
-**File: `src/frontend/components/Header.tsx`**
+| ID | Label | Price |
+|----|-------|-------|
+| drone | Drone Aerial Add-On | $75 |
+| twilight | Twilight Photography | $100 |
+| walkthrough | Walkthrough Video | $75 |
+| ad-consultation | Ad Consultation | $200 |
+| social-reels | Social Media Reel Package | $150 |
+| lead-funnel | Lead Funnel | $350 |
 
-- Import `useNavigate` and `useLocation` from `react-router-dom`
-- Create a `handleNavClick` helper function:
-  - Extracts the hash from the href
-  - If `location.pathname === '/'`, calls `document.querySelector(hash)?.scrollIntoView({ behavior: 'smooth' })`
-  - Otherwise, calls `navigate('/')` then uses `setTimeout` (~100ms) to scroll after render
-  - Calls `e.preventDefault()` to prevent default anchor behavior
-- Apply this handler to all nav links and CTA buttons
-- Update href values to `/#section` format for correct behavior if JS fails
+Removed: Floor Plan, Virtual Staging, Meta Ads Campaign Setup.
 
----
+## Task 5: Architecture
+
+All changes are in `src/frontend/data/pricing.ts`. The UI components (`PricingAndBooking.tsx`) and utility (`utils/pricing.ts`) already consume this data file as a single source of truth. No structural changes needed.
 
 ## Files Summary
 
 | File | Action |
 |------|--------|
-| `src/frontend/data/stats.ts` | Edit — replace 4 stats with new content |
-| `src/frontend/components/Header.tsx` | Edit — add route-aware scroll navigation |
-
-No new dependencies. No layout or styling changes.
+| `src/frontend/assets/logo.png` | Replace with uploaded logo |
+| `public/logo.png` | Replace with uploaded logo |
+| `src/frontend/data/pricing.ts` | Edit -- update packages (names, prices, features) and add-ons |
 
