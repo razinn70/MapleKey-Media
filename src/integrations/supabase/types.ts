@@ -14,7 +14,99 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bookings: {
+        Row: {
+          add_on_ids: string[]
+          base_price: number
+          client_email: string
+          client_name: string
+          client_phone: string | null
+          created_at: string
+          id: string
+          idempotency_key: string | null
+          notes: string | null
+          package_id: string
+          package_name: string
+          property_address: string
+          session_date: string
+          status: Database["public"]["Enums"]["booking_status"]
+          total_price: number
+          updated_at: string
+        }
+        Insert: {
+          add_on_ids?: string[]
+          base_price: number
+          client_email: string
+          client_name: string
+          client_phone?: string | null
+          created_at?: string
+          id?: string
+          idempotency_key?: string | null
+          notes?: string | null
+          package_id: string
+          package_name: string
+          property_address: string
+          session_date: string
+          status?: Database["public"]["Enums"]["booking_status"]
+          total_price: number
+          updated_at?: string
+        }
+        Update: {
+          add_on_ids?: string[]
+          base_price?: number
+          client_email?: string
+          client_name?: string
+          client_phone?: string | null
+          created_at?: string
+          id?: string
+          idempotency_key?: string | null
+          notes?: string | null
+          package_id?: string
+          package_name?: string
+          property_address?: string
+          session_date?: string
+          status?: Database["public"]["Enums"]["booking_status"]
+          total_price?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      contact_submissions: {
+        Row: {
+          created_at: string
+          email: string
+          first_name: string
+          honeypot: string | null
+          id: string
+          last_name: string
+          message: string
+          phone: string | null
+          status: Database["public"]["Enums"]["contact_status"]
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          first_name: string
+          honeypot?: string | null
+          id?: string
+          last_name: string
+          message: string
+          phone?: string | null
+          status?: Database["public"]["Enums"]["contact_status"]
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          first_name?: string
+          honeypot?: string | null
+          id?: string
+          last_name?: string
+          message?: string
+          phone?: string | null
+          status?: Database["public"]["Enums"]["contact_status"]
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +115,8 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      booking_status: "pending" | "confirmed" | "completed" | "cancelled"
+      contact_status: "new" | "read" | "replied"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +243,9 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      booking_status: ["pending", "confirmed", "completed", "cancelled"],
+      contact_status: ["new", "read", "replied"],
+    },
   },
 } as const
