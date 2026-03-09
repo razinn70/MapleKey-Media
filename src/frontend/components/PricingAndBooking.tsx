@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import { packages, addOns } from '@/data/pricing';
 import { calculateTotal } from '@/utils/pricing';
 import { bookingSchema } from '@/lib/validations';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '../../integrations/supabase/client';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';

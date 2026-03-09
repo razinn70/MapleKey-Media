@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { contactInfo } from '@/data/contact';
 import { contactSchema } from '@/lib/validations';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '../../integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 
 const Contact = () => {
