@@ -81,6 +81,27 @@ Deno.serve(async (req) => {
       );
     }
 
+    // Fire-and-forget admin notification email
+    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+    const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    fetch(`${supabaseUrl}/functions/v1/send-email`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${serviceKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        type: "contact_notification",
+        data: {
+          first_name: sanitize(body.firstName),
+          last_name: sanitize(body.lastName),
+          email: body.email.trim().toLowerCase(),
+          phone: body.phone ? sanitize(body.phone) : null,
+          message: sanitize(body.message),
+        },
+      }),
+    }).catch((e) => console.error("Email trigger failed:", e));
+
     return new Response(
       JSON.stringify({ success: true }),
       { status: 201, headers: { ...corsHeaders, "Content-Type": "application/json" } }
