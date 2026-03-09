@@ -1,6 +1,6 @@
-import portfolio1 from '@/assets/portfolio-1.jpg';
-import portfolio2 from '@/assets/portfolio-2.jpg';
-import portfolio3 from '@/assets/portfolio-3.jpg';
+import portfolio1 from '@/assets/portfolio-1.webp';
+import portfolio2 from '@/assets/portfolio-2.webp';
+import portfolio3 from '@/assets/portfolio-3.webp';
 
 export interface GalleryItem {
   id: string;
