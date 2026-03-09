@@ -19,6 +19,9 @@
     "paths": {
       "@/*": [
         "./src/frontend/*"
+      ],
+      "@integrations/*": [
+        "./src/integrations/*"
       ]
     },
     "skipLibCheck": true,

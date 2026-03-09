@@ -16,6 +16,7 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src/frontend"),
+      "@integrations": path.resolve(__dirname, "./src/integrations"),
     },
   },
 }));
