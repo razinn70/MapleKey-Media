@@ -1,31 +1,91 @@
+import { useState } from 'react';
 import { Mail, Phone, MapPin, Clock, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { contactInfo } from '@/data/contact';
-import { FormEvent, useRef } from 'react';
+import { contactSchema } from '@/lib/validations';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from '@/hooks/use-toast';
 
 const Contact = () => {
-  const formRef = useRef<HTMLFormElement>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    message: '',
+  });
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleChange = (field: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    if (fieldErrors[field]) {
+      setFieldErrors((prev) => ({ ...prev, [field]: '' }));
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const form = formRef.current;
-    if (!form) return;
 
-    const data = new FormData(form);
-    const firstName = data.get('firstName') as string;
-    const lastName = data.get('lastName') as string;
-    const email = data.get('email') as string;
-    const phone = data.get('phone') as string;
-    const message = data.get('message') as string;
+    // Client-side Zod validation
+    const result = contactSchema.safeParse({
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      phone: formData.phone || undefined,
+      message: formData.message,
+    });
 
-    const subject = encodeURIComponent(`Inquiry from ${firstName} ${lastName}`);
-    const body = encodeURIComponent(
-      `Name: ${firstName} ${lastName}\nEmail: ${email}\nPhone: ${phone}\n\n${message}`
-    );
+    if (!result.success) {
+      const errors: Record<string, string> = {};
+      result.error.errors.forEach((err) => {
+        const field = err.path[0] as string;
+        errors[field] = err.message;
+      });
+      setFieldErrors(errors);
+      return;
+    }
 
-    window.location.href = `mailto:${contactInfo.email}?subject=${subject}&body=${body}`;
+    setFieldErrors({});
+    setIsSubmitting(true);
+
+    try {
+      // Check honeypot
+      const form = e.currentTarget;
+      const honeypot = (form.querySelector('[name="website"]') as HTMLInputElement)?.value;
+
+      const { data, error } = await supabase.functions.invoke('submit-contact', {
+        body: {
+          firstName: formData.firstName.trim(),
+          lastName: formData.lastName.trim(),
+          email: formData.email.trim(),
+          phone: formData.phone.trim() || null,
+          message: formData.message.trim(),
+          honeypot: honeypot || undefined,
+        },
+      });
+
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+
+      toast({
+        title: 'Message Sent!',
+        description: "Thank you for reaching out. We'll get back to you within 24 hours.",
+      });
+
+      setFormData({ firstName: '', lastName: '', email: '', phone: '', message: '' });
+    } catch (err: any) {
+      console.error('Contact error:', err);
+      toast({
+        title: 'Failed to Send',
+        description: err.message || 'Something went wrong. Please try again.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -94,46 +154,103 @@ const Contact = () => {
           <div className="bg-card rounded-lg p-8 shadow-elevated border border-border">
             <h3 className="font-display text-2xl font-bold text-foreground mb-6">Send Us a Message</h3>
             
-            <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Honeypot */}
+              <div className="absolute -left-[9999px]" aria-hidden="true">
+                <Input name="website" tabIndex={-1} autoComplete="off" />
+              </div>
+
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="firstName" className="block text-sm font-medium text-foreground mb-2">
-                    First Name
+                    First Name *
                   </label>
-                  <Input id="firstName" name="firstName" placeholder="John" required />
+                  <Input
+                    id="firstName"
+                    value={formData.firstName}
+                    onChange={(e) => handleChange('firstName', e.target.value)}
+                    placeholder="John"
+                    maxLength={100}
+                  />
+                  {fieldErrors.firstName && <p className="text-sm text-destructive mt-1">{fieldErrors.firstName}</p>}
                 </div>
                 <div>
                   <label htmlFor="lastName" className="block text-sm font-medium text-foreground mb-2">
-                    Last Name
+                    Last Name *
                   </label>
-                  <Input id="lastName" name="lastName" placeholder="Doe" required />
+                  <Input
+                    id="lastName"
+                    value={formData.lastName}
+                    onChange={(e) => handleChange('lastName', e.target.value)}
+                    placeholder="Doe"
+                    maxLength={100}
+                  />
+                  {fieldErrors.lastName && <p className="text-sm text-destructive mt-1">{fieldErrors.lastName}</p>}
                 </div>
               </div>
 
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
-                  Email Address
+                  Email Address *
                 </label>
-                <Input id="email" name="email" type="email" placeholder="john@example.com" required />
+                <Input
+                  id="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => handleChange('email', e.target.value)}
+                  placeholder="john@example.com"
+                  maxLength={255}
+                />
+                {fieldErrors.email && <p className="text-sm text-destructive mt-1">{fieldErrors.email}</p>}
               </div>
 
               <div>
                 <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-2">
                   Phone Number
                 </label>
-                <Input id="phone" name="phone" type="tel" placeholder="+1 (519) 555-0000" />
+                <Input
+                  id="phone"
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) => handleChange('phone', e.target.value)}
+                  placeholder="+1 (519) 555-0000"
+                  maxLength={20}
+                />
+                {fieldErrors.phone && <p className="text-sm text-destructive mt-1">{fieldErrors.phone}</p>}
               </div>
 
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
-                  How Can We Help?
+                  How Can We Help? *
                 </label>
-                <Textarea id="message" name="message" placeholder="Tell us about your project..." rows={4} required />
+                <Textarea
+                  id="message"
+                  value={formData.message}
+                  onChange={(e) => handleChange('message', e.target.value)}
+                  placeholder="Tell us about your project..."
+                  rows={4}
+                  maxLength={2000}
+                />
+                {fieldErrors.message && <p className="text-sm text-destructive mt-1">{fieldErrors.message}</p>}
               </div>
 
-              <Button type="submit" size="lg" className="w-full bg-gradient-red hover:opacity-90 text-primary-foreground font-semibold gap-2">
-                Send Message
-                <ArrowRight className="w-5 h-5" />
+              <Button
+                type="submit"
+                size="lg"
+                disabled={isSubmitting}
+                className="w-full bg-gradient-red hover:opacity-90 text-primary-foreground font-semibold gap-2"
+              >
+                {isSubmitting ? (
+                  <span className="flex items-center gap-2">
+                    <span className="h-4 w-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
+                    Sending...
+                  </span>
+                ) : (
+                  <>
+                    Send Message
+                    <ArrowRight className="w-5 h-5" />
+                  </>
+                )}
               </Button>
             </form>
           </div>

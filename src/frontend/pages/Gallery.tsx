@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -12,6 +12,10 @@ const ITEMS_PER_PAGE = 12;
 const GalleryPage = () => {
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
+
+  useEffect(() => {
+    document.title = 'Portfolio | MapleKey Media';
+  }, []);
 
   const filtered = useMemo<GalleryItem[]>(() => {
     if (activeCategory === 'All') return galleryItems;
