@@ -109,6 +109,31 @@ Deno.serve(async (req) => {
       );
     }
 
+    // Fire-and-forget email notification
+    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+    const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    fetch(`${supabaseUrl}/functions/v1/send-email`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${serviceKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        type: "booking_confirmation",
+        data: {
+          client_name: sanitize(body.client_name),
+          client_email: body.client_email.trim().toLowerCase(),
+          client_phone: body.client_phone ? sanitize(body.client_phone) : null,
+          package_name: sanitize(body.package_name),
+          session_date: body.session_date,
+          property_address: sanitize(body.property_address),
+          total_price: body.total_price,
+          add_on_ids: body.add_on_ids ?? [],
+          notes: body.notes ? sanitize(body.notes) : null,
+        },
+      }),
+    }).catch((e) => console.error("Email trigger failed:", e));
+
     return new Response(
       JSON.stringify({ success: true, data: { id: data.id } }),
       { status: 201, headers: { ...corsHeaders, "Content-Type": "application/json" } }
