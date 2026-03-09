@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -5,6 +6,10 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 const TermsOfService = () => {
+  useEffect(() => {
+    document.title = 'Terms of Service | MapleKey Media';
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -95,7 +100,7 @@ const TermsOfService = () => {
                 For questions about these Terms, contact us at:<br /><br />
                 <strong className="text-foreground">MapleKey Media Inc.</strong><br />
                 Kitchener-Waterloo Region, Ontario, Canada<br />
-                Email: <a href="mailto:info@maplekey.media" className="text-primary hover:underline">info@maplekey.media</a>
+                Email: <a href="mailto:maplekeymedia@gmail.com" className="text-primary hover:underline">maplekeymedia@gmail.com</a>
               </p>
             </section>
 

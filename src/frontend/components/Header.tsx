@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -8,6 +8,8 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const menuRef = useRef<HTMLDivElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
 
   const navLinks = [
     { label: 'Services', href: '/#services' },
@@ -35,13 +37,45 @@ const Header = () => {
     [location.pathname, navigate]
   );
 
+  // Focus trap + Escape key for mobile menu
+  useEffect(() => {
+    if (!isMenuOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsMenuOpen(false);
+        toggleRef.current?.focus();
+        return;
+      }
+
+      if (e.key === 'Tab' && menuRef.current) {
+        const focusable = menuRef.current.querySelectorAll<HTMLElement>(
+          'a, button, [tabindex]:not([tabindex="-1"])'
+        );
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last?.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first?.focus();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isMenuOpen]);
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <a href="/" className="flex items-center gap-3">
-            <img src={logo} alt="MapleKey Media" className="h-12 w-auto" />
+            <img src={logo} alt="MapleKey Media" className="h-12 w-auto" width={48} height={48} />
             <div className="hidden sm:block">
               <span className="text-xl font-bold text-foreground">MapleKey</span>
               <span className="text-xl font-bold text-primary">Media</span>
@@ -71,8 +105,12 @@ const Header = () => {
 
           {/* Mobile Menu Button */}
           <button
+            ref={toggleRef}
             className="md:hidden p-2 text-foreground"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-menu"
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -80,7 +118,13 @@ const Header = () => {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-border animate-fade-in">
+          <div
+            id="mobile-menu"
+            ref={menuRef}
+            role="navigation"
+            aria-label="Mobile navigation"
+            className="md:hidden py-4 border-t border-border animate-fade-in"
+          >
             <nav className="flex flex-col gap-4">
               {navLinks.map((link) => (
                 <a

@@ -4,6 +4,8 @@ import { CalendarIcon, MapPin, Camera, CheckCircle, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { packages, addOns } from '@/data/pricing';
 import { calculateTotal } from '@/utils/pricing';
+import { bookingSchema } from '@/lib/validations';
+import { supabase } from '../../integrations/supabase/client';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
@@ -39,6 +41,7 @@ const PricingAndBooking = () => {
   const [notes, setNotes] = useState('');
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
   const selectedPackage = packages.find((p) => p.id === selectedPackageId)!;
   const selectedAddOns = addOns.filter((a) => selectedAddOnIds.includes(a.id));
@@ -53,21 +56,70 @@ const PricingAndBooking = () => {
     );
   };
 
-  const isFormValid = date && name.trim() && email.trim() && address.trim();
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isFormValid) return;
 
+    // Client-side Zod validation
+    const result = bookingSchema.safeParse({
+      client_name: name,
+      client_email: email,
+      client_phone: phone || undefined,
+      property_address: address,
+      notes: notes || undefined,
+      session_date: date,
+    });
+
+    if (!result.success) {
+      const errors: Record<string, string> = {};
+      result.error.errors.forEach((err) => {
+        const field = err.path[0] as string;
+        errors[field] = err.message;
+      });
+      setFieldErrors(errors);
+      return;
+    }
+
+    setFieldErrors({});
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
+
+    try {
+      const idempotencyKey = `${email}-${date?.toISOString()}-${selectedPackageId}-${Date.now()}`;
+
+      const { data, error } = await supabase.functions.invoke('submit-booking', {
+        body: {
+          idempotency_key: idempotencyKey,
+          package_id: selectedPackageId,
+          package_name: selectedPackage.name,
+          base_price: base,
+          add_on_ids: selectedAddOnIds,
+          total_price: total,
+          session_date: date?.toISOString().split('T')[0],
+          client_name: name.trim(),
+          client_email: email.trim(),
+          client_phone: phone.trim() || null,
+          property_address: address.trim(),
+          notes: notes.trim() || null,
+        },
+      });
+
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+
       setShowConfirmation(true);
       toast({
         title: 'Session Booked!',
         description: `Your ${selectedPackage.name} session has been scheduled.`,
       });
-    }, 1200);
+    } catch (err: any) {
+      console.error('Booking error:', err);
+      toast({
+        title: 'Booking Failed',
+        description: err.message || 'Something went wrong. Please try again.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleReset = () => {
@@ -77,6 +129,7 @@ const PricingAndBooking = () => {
     setPhone('');
     setAddress('');
     setNotes('');
+    setFieldErrors({});
     setShowConfirmation(false);
   };
 
@@ -201,6 +254,11 @@ const PricingAndBooking = () => {
 
             {/* Booking Form */}
             <form onSubmit={handleSubmit} className="space-y-8">
+              {/* Honeypot - hidden from users, catches bots */}
+              <div className="absolute -left-[9999px]" aria-hidden="true">
+                <Input name="website" tabIndex={-1} autoComplete="off" />
+              </div>
+
               {/* Date */}
               <div className="space-y-4">
                 <div className="flex items-center gap-3 mb-2">
@@ -231,6 +289,9 @@ const PricingAndBooking = () => {
                     />
                   </PopoverContent>
                 </Popover>
+                {fieldErrors.session_date && (
+                  <p className="text-sm text-destructive">{fieldErrors.session_date}</p>
+                )}
               </div>
 
               {/* Details */}
@@ -243,14 +304,17 @@ const PricingAndBooking = () => {
                   <div className="space-y-2">
                     <Label htmlFor="booking-name">Full Name *</Label>
                     <Input id="booking-name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Jane Smith" maxLength={100} />
+                    {fieldErrors.client_name && <p className="text-sm text-destructive">{fieldErrors.client_name}</p>}
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="booking-email">Email *</Label>
                     <Input id="booking-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="jane@realty.com" maxLength={255} />
+                    {fieldErrors.client_email && <p className="text-sm text-destructive">{fieldErrors.client_email}</p>}
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="booking-phone">Phone</Label>
                     <Input id="booking-phone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="(519) 555-0100" maxLength={20} />
+                    {fieldErrors.client_phone && <p className="text-sm text-destructive">{fieldErrors.client_phone}</p>}
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="booking-address">Property Address *</Label>
@@ -258,11 +322,13 @@ const PricingAndBooking = () => {
                       <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                       <Input id="booking-address" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="123 Main St, Kitchener, ON" maxLength={300} className="pl-10" />
                     </div>
+                    {fieldErrors.property_address && <p className="text-sm text-destructive">{fieldErrors.property_address}</p>}
                   </div>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="booking-notes">Additional Notes</Label>
                   <Textarea id="booking-notes" value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Any special requests, access codes, or details about the property..." maxLength={1000} rows={3} />
+                  {fieldErrors.notes && <p className="text-sm text-destructive">{fieldErrors.notes}</p>}
                 </div>
               </div>
 
@@ -270,7 +336,7 @@ const PricingAndBooking = () => {
               <Button
                 type="submit"
                 size="lg"
-                disabled={!isFormValid || isSubmitting}
+                disabled={isSubmitting}
                 className="w-full sm:w-auto bg-gradient-red hover:opacity-90 text-primary-foreground font-semibold px-10"
               >
                 {isSubmitting ? (

@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Facebook, Instagram, Linkedin } from 'lucide-react';
 import logo from '@/assets/logo.png';
 
@@ -9,33 +11,55 @@ const TikTokIcon = ({ className }: { className?: string }) => (
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleNavClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+      // Skip for non-hash links
+      if (!href.startsWith('#') && !href.startsWith('/#')) return;
+
+      e.preventDefault();
+      const hash = href.startsWith('/') ? href.replace('/', '') : href;
+
+      if (location.pathname === '/') {
+        document.querySelector(hash)?.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        navigate('/');
+        setTimeout(() => {
+          document.querySelector(hash)?.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    },
+    [location.pathname, navigate]
+  );
 
   const footerLinks = {
     services: [
-      { label: 'HDR Photography', href: '#services' },
-      { label: 'Video Tours', href: '#services' },
-      { label: 'Drone Aerial', href: '#services' },
-      { label: 'Short-Form Video', href: '#services' },
-      { label: 'Meta Ads & Paid Growth', href: '#services' },
-      { label: 'Lead Funnels', href: '#services' },
+      { label: 'HDR Photography', href: '/#services' },
+      { label: 'Video Tours', href: '/#services' },
+      { label: 'Drone Aerial', href: '/#services' },
+      { label: 'Short-Form Video', href: '/#services' },
+      { label: 'Meta Ads & Paid Growth', href: '/#services' },
+      { label: 'Lead Funnels', href: '/#services' },
     ],
     company: [
-      { label: 'About Us', href: '#about' },
+      { label: 'About Us', href: '/#about' },
       { label: 'Portfolio', href: '/gallery' },
-      { label: 'Pricing', href: '#pricing' },
-      { label: 'Contact', href: '#contact' },
+      { label: 'Pricing', href: '/#pricing' },
+      { label: 'Contact', href: '/#contact' },
     ],
     support: [
       { label: 'FAQ', href: '/learn-more#faq' },
-      { label: 'Scheduling', href: '#pricing' },
-      { label: 'Contact Us', href: '#contact' },
+      { label: 'Scheduling', href: '/#pricing' },
+      { label: 'Contact Us', href: '/#contact' },
     ],
   };
 
   const socialLinks = [
     { icon: Facebook, href: 'https://www.facebook.com/MapleKeyMedia', label: 'Facebook' },
     { icon: Instagram, href: 'https://www.instagram.com/maplekeymedia/', label: 'Instagram' },
-    { icon: Linkedin, href: 'https://www.linkedin.com/company/111807200/admin/dashboard/', label: 'LinkedIn' },
+    { icon: Linkedin, href: 'https://www.linkedin.com/company/maplekey-media', label: 'LinkedIn' },
     { icon: TikTokIcon, href: 'https://www.tiktok.com/@maplekeymedia', label: 'TikTok' },
   ];
 
@@ -46,7 +70,7 @@ const Footer = () => {
           {/* Brand */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-3 mb-6">
-              <img src={logo} alt="MapleKey Media" className="h-12 w-auto" />
+              <img src={logo} alt="MapleKey Media" className="h-12 w-auto" width={48} height={48} />
               <div>
                 <span className="text-xl font-bold text-secondary-foreground">MapleKey</span>
                 <span className="text-xl font-bold text-primary">Media</span>
@@ -77,7 +101,11 @@ const Footer = () => {
             <ul className="space-y-3">
               {footerLinks.services.map((link) => (
                 <li key={link.label}>
-                  <a href={link.href} className="text-secondary-foreground/70 hover:text-primary transition-colors">
+                  <a
+                    href={link.href}
+                    onClick={(e) => handleNavClick(e, link.href)}
+                    className="text-secondary-foreground/70 hover:text-primary transition-colors"
+                  >
                     {link.label}
                   </a>
                 </li>
@@ -91,7 +119,11 @@ const Footer = () => {
             <ul className="space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={link.label}>
-                  <a href={link.href} className="text-secondary-foreground/70 hover:text-primary transition-colors">
+                  <a
+                    href={link.href}
+                    onClick={(e) => handleNavClick(e, link.href)}
+                    className="text-secondary-foreground/70 hover:text-primary transition-colors"
+                  >
                     {link.label}
                   </a>
                 </li>
@@ -105,7 +137,11 @@ const Footer = () => {
             <ul className="space-y-3">
               {footerLinks.support.map((link) => (
                 <li key={link.label}>
-                  <a href={link.href} className="text-secondary-foreground/70 hover:text-primary transition-colors">
+                  <a
+                    href={link.href}
+                    onClick={(e) => handleNavClick(e, link.href)}
+                    className="text-secondary-foreground/70 hover:text-primary transition-colors"
+                  >
                     {link.label}
                   </a>
                 </li>

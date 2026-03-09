@@ -35,6 +35,8 @@ const GalleryGrid = ({ items, columns = 3 }: GalleryGridProps) => {
               alt={item.alt}
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
               loading="lazy"
+              width={800}
+              height={600}
             />
             {/* Hover overlay */}
             <div className="absolute inset-0 bg-secondary/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">

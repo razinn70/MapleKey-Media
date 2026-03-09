@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -5,6 +6,10 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 const PrivacyPolicy = () => {
+  useEffect(() => {
+    document.title = 'Privacy Policy | MapleKey Media';
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -89,7 +94,7 @@ const PrivacyPolicy = () => {
                 <li>Withdraw consent for marketing communications at any time.</li>
               </ul>
               <p className="text-muted-foreground leading-relaxed mt-4">
-                To exercise these rights, contact us at <a href="mailto:info@maplekey.media" className="text-primary hover:underline">info@maplekey.media</a>.
+                To exercise these rights, contact us at <a href="mailto:maplekeymedia@gmail.com" className="text-primary hover:underline">maplekeymedia@gmail.com</a>.
               </p>
             </section>
 
@@ -106,7 +111,7 @@ const PrivacyPolicy = () => {
                 If you have questions or concerns about this Privacy Policy, please contact:<br /><br />
                 <strong className="text-foreground">MapleKey Media Inc.</strong><br />
                 Kitchener-Waterloo Region, Ontario, Canada<br />
-                Email: <a href="mailto:info@maplekey.media" className="text-primary hover:underline">info@maplekey.media</a>
+                Email: <a href="mailto:maplekeymedia@gmail.com" className="text-primary hover:underline">maplekeymedia@gmail.com</a>
               </p>
             </section>
           </div>
