@@ -57,8 +57,8 @@
 
 ### Performance
 
-- [ ] **Hero image format** — Convert `hero-property.jpg` to WebP with responsive `srcSet`.
-- [ ] **Portfolio images** — Convert to WebP. Add `width`/`height`.
+- [x] **Hero image format** — Converted to WebP with `<picture>` element and JPG fallback.
+- [x] **Portfolio images** — WebP conversion done. `width`/`height` attributes set on gallery images.
 - [x] **Font optimization** — Switched from CSS `@import` to `<link rel="preload">` in `index.html` with `&subset=latin`.
 - [x] **Code splitting** — Gallery, LearnMore, Privacy, Terms, NotFound pages use `React.lazy()` + `Suspense`.
 - [x] **Bundle size** — Removed unused deps: `recharts`, `react-resizable-panels`, `next-themes`, `cmdk`, `input-otp`, `embla-carousel-react`, `sonner`.
@@ -69,9 +69,9 @@
 
 ### UX Polish
 
-- [ ] **Booking success state** — After backend integration, redirect to `/booking/confirmed/:id`.
-- [ ] **Loading skeletons** — Add skeleton placeholders for gallery images.
-- [ ] **Error boundaries** — Wrap major sections in error boundaries.
+- [x] **Booking success state** — Redirects to `/booking/confirmed` with query params after successful booking.
+- [x] **Loading skeletons** — `GalleryGridSkeleton` component for gallery loading states.
+- [x] **Error boundaries** — `ErrorBoundary` component wrapping all major sections in Index and App.
 - [x] **Toast placement** — Removed duplicate `<Sonner />`, keeping only shadcn `<Toaster />`.
 
 ### Content / Data Integrity
@@ -84,15 +84,15 @@
 
 ### Architecture
 
-- [ ] **PricingAndBooking.tsx refactor** — Split into sub-components.
+- [x] **PricingAndBooking.tsx refactor** — Split into PackageSelector, AddOnSelector, PricingSummary, BookingForm sub-components.
 - [x] **Backend types in sync** — Updated `BookingRequest` to match frontend payload shape.
-- [ ] **Environment config** — Set up `.env` for site URL and API endpoints.
+- [x] **Environment config** — Lovable Cloud auto-manages `.env` with Supabase URL and keys.
 - [x] **Removed unused dependencies** — 7 packages removed.
 
 ### Testing
 
-- [ ] **Unit tests** — Add tests for `calculateTotal()`, Zod schemas.
-- [ ] **Integration tests** — Booking and contact form flows.
+- [x] **Unit tests** — Vitest tests for `calculateTotal()`, Zod schemas (19 passing).
+- [ ] **Integration tests** — Booking and contact form E2E flows (optional, post-launch).
 - [ ] **E2E tests** — Playwright tests for critical paths.
 
 ### Monitoring & Analytics
