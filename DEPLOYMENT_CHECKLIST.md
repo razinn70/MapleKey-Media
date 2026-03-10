@@ -69,9 +69,9 @@
 
 ### UX Polish
 
-- [ ] **Booking success state** — After backend integration, redirect to `/booking/confirmed/:id`.
-- [ ] **Loading skeletons** — Add skeleton placeholders for gallery images.
-- [ ] **Error boundaries** — Wrap major sections in error boundaries.
+- [x] **Booking success state** — Redirects to `/booking/confirmed` with query params after successful booking.
+- [x] **Loading skeletons** — `GalleryGridSkeleton` component for gallery loading states.
+- [x] **Error boundaries** — `ErrorBoundary` component wrapping all major sections in Index and App.
 - [x] **Toast placement** — Removed duplicate `<Sonner />`, keeping only shadcn `<Toaster />`.
 
 ### Content / Data Integrity
