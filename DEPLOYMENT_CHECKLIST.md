@@ -57,8 +57,8 @@
 
 ### Performance
 
-- [ ] **Hero image format** — Convert `hero-property.jpg` to WebP with responsive `srcSet`.
-- [ ] **Portfolio images** — Convert to WebP. Add `width`/`height`.
+- [x] **Hero image format** — Converted to WebP with `<picture>` element and JPG fallback.
+- [x] **Portfolio images** — WebP conversion done. `width`/`height` attributes set on gallery images.
 - [x] **Font optimization** — Switched from CSS `@import` to `<link rel="preload">` in `index.html` with `&subset=latin`.
 - [x] **Code splitting** — Gallery, LearnMore, Privacy, Terms, NotFound pages use `React.lazy()` + `Suspense`.
 - [x] **Bundle size** — Removed unused deps: `recharts`, `react-resizable-panels`, `next-themes`, `cmdk`, `input-otp`, `embla-carousel-react`, `sonner`.
