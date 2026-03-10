@@ -91,8 +91,8 @@
 
 ### Testing
 
-- [ ] **Unit tests** — Add tests for `calculateTotal()`, Zod schemas.
-- [ ] **Integration tests** — Booking and contact form flows.
+- [x] **Unit tests** — Vitest tests for `calculateTotal()`, Zod schemas (19 passing).
+- [ ] **Integration tests** — Booking and contact form E2E flows (optional, post-launch).
 - [ ] **E2E tests** — Playwright tests for critical paths.
 
 ### Monitoring & Analytics
