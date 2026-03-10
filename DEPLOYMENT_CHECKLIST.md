@@ -84,7 +84,7 @@
 
 ### Architecture
 
-- [ ] **PricingAndBooking.tsx refactor** — Split into sub-components.
+- [x] **PricingAndBooking.tsx refactor** — Split into PackageSelector, AddOnSelector, PricingSummary, BookingForm sub-components.
 - [x] **Backend types in sync** — Updated `BookingRequest` to match frontend payload shape.
 - [ ] **Environment config** — Set up `.env` for site URL and API endpoints.
 - [x] **Removed unused dependencies** — 7 packages removed.
