@@ -24,9 +24,9 @@
 
 ### Email Notifications
 
-- [ ] **Booking confirmation email** — Send automated email to client on successful booking. Requires email service integration (Resend/SendGrid).
-- [ ] **Admin notification email** — Send email to `maplekeymedia@gmail.com` on every new booking and contact submission.
-- [ ] **Store email service API key as Cloud secret** — Never in codebase.
+- [x] **Booking confirmation email** — `send-email` edge function sends branded confirmation to client via Resend. Triggered fire-and-forget from `submit-booking`.
+- [x] **Admin notification email** — `send-email` sends admin alerts to `maplekeymedia@gmail.com` on every booking and contact submission.
+- [x] **Store email service API key as Cloud secret** — `RESEND_API_KEY` stored as Cloud secret.
 
 ---
 
@@ -131,10 +131,10 @@
 4. ~~Wire forms to edge functions with Zod validation~~ ✅
 5. ~~Fix SEO gaps~~ ✅
 6. ~~Fix accessibility issues~~ ✅
-7. Convert images to WebP (optional optimization)
+7. ~~Convert images to WebP~~ ✅
 8. ~~Remove unused deps, code-split routes~~ ✅
-9. Set up email notifications (booking confirmation + admin alerts)
-10. Add analytics + error tracking
-11. Write critical-path tests
+9. ~~Set up email notifications (booking confirmation + admin alerts)~~ ✅
+10. Add analytics + error tracking *(P2 — post-launch)*
+11. Write critical-path tests *(P2 — post-launch)*
 12. Final QA pass (mobile, desktop, all routes)
 13. Publish
