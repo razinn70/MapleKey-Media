@@ -131,10 +131,10 @@
 4. ~~Wire forms to edge functions with Zod validation~~ ✅
 5. ~~Fix SEO gaps~~ ✅
 6. ~~Fix accessibility issues~~ ✅
-7. Convert images to WebP (optional optimization)
+7. ~~Convert images to WebP~~ ✅
 8. ~~Remove unused deps, code-split routes~~ ✅
-9. Set up email notifications (booking confirmation + admin alerts)
-10. Add analytics + error tracking
-11. Write critical-path tests
+9. ~~Set up email notifications (booking confirmation + admin alerts)~~ ✅
+10. Add analytics + error tracking *(P2 — post-launch)*
+11. Write critical-path tests *(P2 — post-launch)*
 12. Final QA pass (mobile, desktop, all routes)
 13. Publish
