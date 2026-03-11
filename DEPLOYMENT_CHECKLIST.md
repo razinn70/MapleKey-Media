@@ -24,9 +24,9 @@
 
 ### Email Notifications
 
-- [ ] **Booking confirmation email** — Send automated email to client on successful booking. Requires email service integration (Resend/SendGrid).
-- [ ] **Admin notification email** — Send email to `maplekeymedia@gmail.com` on every new booking and contact submission.
-- [ ] **Store email service API key as Cloud secret** — Never in codebase.
+- [x] **Booking confirmation email** — `send-email` edge function sends branded confirmation to client via Resend. Triggered fire-and-forget from `submit-booking`.
+- [x] **Admin notification email** — `send-email` sends admin alerts to `maplekeymedia@gmail.com` on every booking and contact submission.
+- [x] **Store email service API key as Cloud secret** — `RESEND_API_KEY` stored as Cloud secret.
 
 ---
 
