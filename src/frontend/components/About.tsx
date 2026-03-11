@@ -1,6 +1,7 @@
 import { CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 const industryStats = [
   { value: '95%', label: 'Homebuyers search online during the home buying process' },
@@ -18,13 +19,27 @@ const features = [
   'Consistent branding across all media',
 ];
 
+const statVariants = {
+  hidden: { opacity: 0, scale: 0.8 },
+  visible: (i: number) => ({
+    opacity: 1,
+    scale: 1,
+    transition: { delay: i * 0.15, duration: 0.5, ease: 'easeOut' },
+  }),
+};
+
 const About = () => {
   return (
     <section id="about" className="py-24 bg-background">
       <div className="container mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Content */}
-          <div>
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 0.7 }}
+          >
             <span className="text-primary font-semibold text-sm uppercase tracking-wider">About MapleKey Media</span>
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mt-3 mb-6">
               A Strategic Partner in Modern Real Estate Marketing
@@ -49,17 +64,25 @@ const About = () => {
             <Button size="lg" asChild className="bg-gradient-red hover:opacity-90 text-primary-foreground font-semibold px-8">
               <Link to="/learn-more">Learn More About Us</Link>
             </Button>
-          </div>
+          </motion.div>
 
           {/* Industry Stats Cards */}
           <div className="grid grid-cols-2 gap-6">
             {industryStats.map((stat, i) => {
               const isAccent = i % 2 === 0;
               return (
-                <div key={stat.value} className={`${isAccent ? 'bg-secondary' : 'bg-muted'} rounded-lg p-8 text-center`}>
+                <motion.div
+                  key={stat.value}
+                  custom={i}
+                  variants={statVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: '-80px' }}
+                  className={`${isAccent ? 'bg-secondary' : 'bg-muted'} rounded-lg p-8 text-center`}
+                >
                   <div className={`text-5xl font-bold ${isAccent ? 'text-primary' : 'text-foreground'} mb-2`}>{stat.value}</div>
                   <div className={`${isAccent ? 'text-secondary-foreground' : 'text-muted-foreground'} font-medium text-sm`}>{stat.label}</div>
-                </div>
+                </motion.div>
               );
             })}
           </div>

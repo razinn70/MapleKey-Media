@@ -1,11 +1,12 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Sun, Moon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import logo from '@/assets/logo.png';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains('dark'));
   const navigate = useNavigate();
   const location = useLocation();
   const menuRef = useRef<HTMLDivElement>(null);
@@ -18,6 +19,12 @@ const Header = () => {
     { label: 'About', href: '/#about' },
     { label: 'Contact', href: '/#contact' },
   ];
+
+  const toggleTheme = useCallback(() => {
+    const next = !isDark;
+    setIsDark(next);
+    document.documentElement.classList.toggle('dark', next);
+  }, [isDark]);
 
   const handleNavClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -96,24 +103,34 @@ const Header = () => {
             ))}
           </nav>
 
-          {/* CTA Button */}
-          <div className="hidden md:block">
-            <Button variant="default" asChild className="bg-gradient-red hover:opacity-90 text-primary-foreground font-semibold px-6">
-              <a href="/#pricing" onClick={(e) => handleNavClick(e, '/#pricing')}>Get a Quote</a>
-            </Button>
-          </div>
+          {/* Right side: theme toggle + CTA */}
+          <div className="flex items-center gap-3">
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+              aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </button>
 
-          {/* Mobile Menu Button */}
-          <button
-            ref={toggleRef}
-            className="md:hidden p-2 text-foreground"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-            aria-expanded={isMenuOpen}
-            aria-controls="mobile-menu"
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+            <div className="hidden md:block">
+              <Button variant="default" asChild className="bg-gradient-red hover:opacity-90 text-primary-foreground font-semibold px-6">
+                <a href="/#pricing" onClick={(e) => handleNavClick(e, '/#pricing')}>Get a Quote</a>
+              </Button>
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              ref={toggleRef}
+              className="md:hidden p-2 text-foreground"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-menu"
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Menu */}

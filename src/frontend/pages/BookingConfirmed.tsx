@@ -4,6 +4,7 @@ import { CheckCircle, Calendar, MapPin, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { analytics } from '@/utils/analytics';
 
 const BookingConfirmed = () => {
   const [searchParams] = useSearchParams();
@@ -15,14 +16,17 @@ const BookingConfirmed = () => {
 
   useEffect(() => {
     document.title = 'Booking Confirmed — MapleKey Media';
-  }, []);
+    analytics.bookingConfirmed({
+      package_name: packageName,
+      total_price: Number(total) || 0,
+    });
+  }, [packageName, total]);
 
   return (
     <div className="min-h-screen bg-background">
       <Header />
       <main className="pt-32 pb-24">
         <div className="container mx-auto px-6 max-w-2xl text-center">
-          {/* Success Icon */}
           <div className="mx-auto mb-6 w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center animate-fade-up">
             <CheckCircle className="h-10 w-10 text-primary" />
           </div>
@@ -37,7 +41,6 @@ const BookingConfirmed = () => {
             )}
           </p>
 
-          {/* Booking Details Card */}
           {(address || date || total) && (
             <div className="bg-card border border-border rounded-lg p-8 mb-10 text-left animate-fade-up" style={{ animationDelay: '0.3s' }}>
               <h2 className="font-display text-lg font-bold text-foreground mb-4">Booking Details</h2>
@@ -67,7 +70,6 @@ const BookingConfirmed = () => {
             </div>
           )}
 
-          {/* What's Next */}
           <div className="bg-accent border border-primary/20 rounded-lg p-6 mb-10 text-left animate-fade-up" style={{ animationDelay: '0.4s' }}>
             <h3 className="font-display text-lg font-bold text-foreground mb-3">What Happens Next?</h3>
             <ol className="space-y-2 text-sm text-muted-foreground list-decimal list-inside">
@@ -77,7 +79,6 @@ const BookingConfirmed = () => {
             </ol>
           </div>
 
-          {/* Actions */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-up" style={{ animationDelay: '0.5s' }}>
             <Button asChild className="bg-gradient-red hover:opacity-90 text-primary-foreground gap-2">
               <Link to="/#pricing">
