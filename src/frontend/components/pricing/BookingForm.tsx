@@ -14,6 +14,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { toast } from '@/hooks/use-toast';
+import { analytics } from '@/utils/analytics';
 
 interface BookingFormProps {
   selectedPackage: Package;
@@ -88,6 +89,12 @@ const BookingForm = ({ selectedPackage, selectedAddOnIds, selectedAddOns, base, 
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
 
+      analytics.bookingSubmitted({
+        package_name: selectedPackage.name,
+        total_price: total,
+        add_on_count: selectedAddOnIds.length,
+      });
+
       toast({
         title: 'Session Booked!',
         description: `Your ${selectedPackage.name} session has been scheduled.`,
@@ -101,11 +108,12 @@ const BookingForm = ({ selectedPackage, selectedAddOnIds, selectedAddOns, base, 
         total: String(total),
       });
       navigate(`/booking/confirmed?${params.toString()}`);
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Something went wrong. Please try again.';
       console.error('Booking error:', err);
       toast({
         title: 'Booking Failed',
-        description: err.message || 'Something went wrong. Please try again.',
+        description: message,
         variant: 'destructive',
       });
     } finally {
@@ -119,7 +127,6 @@ const BookingForm = ({ selectedPackage, selectedAddOnIds, selectedAddOns, base, 
     setIsCheckingOut(true);
 
     try {
-      // First submit the booking
       const idempotencyKey = `${email}-${date?.toISOString()}-${selectedPackage.id}-${Date.now()}`;
 
       await supabase.functions.invoke('submit-booking', {
@@ -139,7 +146,11 @@ const BookingForm = ({ selectedPackage, selectedAddOnIds, selectedAddOns, base, 
         },
       });
 
-      // Then create Stripe checkout
+      analytics.checkoutStarted({
+        package_name: selectedPackage.name,
+        total_price: total,
+      });
+
       const addOnPriceIds = selectedAddOnIds
         .map((id) => allAddOns.find((a) => a.id === id)?.stripePriceId)
         .filter(Boolean);
@@ -159,11 +170,12 @@ const BookingForm = ({ selectedPackage, selectedAddOnIds, selectedAddOns, base, 
       if (data?.url) {
         window.open(data.url, '_blank');
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Something went wrong. Please try again.';
       console.error('Checkout error:', err);
       toast({
         title: 'Checkout Failed',
-        description: err.message || 'Something went wrong. Please try again.',
+        description: message,
         variant: 'destructive',
       });
     } finally {
@@ -189,7 +201,6 @@ const BookingForm = ({ selectedPackage, selectedAddOnIds, selectedAddOns, base, 
 
       {/* Form */}
       <form onSubmit={handleSubmit} className="space-y-8">
-        {/* Honeypot */}
         <div className="absolute -left-[9999px]" aria-hidden="true">
           <Input name="website" tabIndex={-1} autoComplete="off" />
         </div>

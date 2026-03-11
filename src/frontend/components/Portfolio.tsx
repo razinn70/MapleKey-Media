@@ -1,6 +1,7 @@
 import { ArrowUpRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { galleryItems } from '@/data/gallery';
 import GalleryGrid from '@/components/GalleryGrid';
 
@@ -11,7 +12,13 @@ const Portfolio = () => {
     <section id="portfolio" className="py-24 bg-secondary">
       <div className="container mx-auto px-6">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
+        <motion.div
+          className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 0.6 }}
+        >
           <div>
             <span className="text-primary font-semibold text-sm uppercase tracking-wider">Portfolio</span>
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-secondary-foreground mt-3">
@@ -24,10 +31,17 @@ const Portfolio = () => {
               <ArrowUpRight className="w-4 h-4" />
             </Link>
           </Button>
-        </div>
+        </motion.div>
 
         {/* Gallery Grid */}
-        <GalleryGrid items={previewItems} columns={3} />
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.7 }}
+        >
+          <GalleryGrid items={previewItems} columns={3} />
+        </motion.div>
 
         {/* See More */}
         <div className="flex justify-center mt-12">

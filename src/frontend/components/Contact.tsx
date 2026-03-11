@@ -7,6 +7,7 @@ import { contactInfo } from '@/data/contact';
 import { contactSchema } from '@/lib/validations';
 import { supabase } from '@integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
+import { analytics } from '@/utils/analytics';
 
 const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -29,7 +30,6 @@ const Contact = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Client-side Zod validation
     const result = contactSchema.safeParse({
       firstName: formData.firstName,
       lastName: formData.lastName,
@@ -52,7 +52,6 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      // Check honeypot
       const form = e.currentTarget;
       const honeypot = (form.querySelector('[name="website"]') as HTMLInputElement)?.value;
 
@@ -70,17 +69,20 @@ const Contact = () => {
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
 
+      analytics.contactSubmitted();
+
       toast({
         title: 'Message Sent!',
         description: "Thank you for reaching out. We'll get back to you within 24 hours.",
       });
 
       setFormData({ firstName: '', lastName: '', email: '', phone: '', message: '' });
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Something went wrong. Please try again.';
       console.error('Contact error:', err);
       toast({
         title: 'Failed to Send',
-        description: err.message || 'Something went wrong. Please try again.',
+        description: message,
         variant: 'destructive',
       });
     } finally {
@@ -102,7 +104,6 @@ const Contact = () => {
               Contact us today for a free consultation and quote. Our team is ready to help you create stunning visual content that sells.
             </p>
 
-            {/* Contact Details */}
             <div className="space-y-6 mb-10">
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -155,7 +156,6 @@ const Contact = () => {
             <h3 className="font-display text-2xl font-bold text-foreground mb-6">Send Us a Message</h3>
             
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Honeypot */}
               <div className="absolute -left-[9999px]" aria-hidden="true">
                 <Input name="website" tabIndex={-1} autoComplete="off" />
               </div>
