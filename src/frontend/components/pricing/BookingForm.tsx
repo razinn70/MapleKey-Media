@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
-import { CalendarIcon, MapPin, Camera } from 'lucide-react';
+import { CalendarIcon, MapPin, Camera, CreditCard } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { bookingSchema } from '@/lib/validations';
 import { supabase } from '@integrations/supabase/client';
 import type { Package, AddOn } from '@/data/pricing';
+import { addOns as allAddOns } from '@/data/pricing';
 import { Button } from '@/components/ui/button';
 import { Calendar as CalendarPicker } from '@/components/ui/calendar';
 import { Input } from '@/components/ui/input';
@@ -31,11 +32,10 @@ const BookingForm = ({ selectedPackage, selectedAddOnIds, selectedAddOns, base, 
   const [address, setAddress] = useState('');
   const [notes, setNotes] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const validateForm = () => {
     const result = bookingSchema.safeParse({
       client_name: name,
       client_email: email,
@@ -52,10 +52,17 @@ const BookingForm = ({ selectedPackage, selectedAddOnIds, selectedAddOns, base, 
         errors[field] = err.message;
       });
       setFieldErrors(errors);
-      return;
+      return false;
     }
 
     setFieldErrors({});
+    return true;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+
     setIsSubmitting(true);
 
     try {
@@ -86,7 +93,6 @@ const BookingForm = ({ selectedPackage, selectedAddOnIds, selectedAddOns, base, 
         description: `Your ${selectedPackage.name} session has been scheduled.`,
       });
 
-      // Redirect to confirmation page
       const params = new URLSearchParams({
         package: selectedPackage.name,
         address: address.trim(),
@@ -104,6 +110,64 @@ const BookingForm = ({ selectedPackage, selectedAddOnIds, selectedAddOns, base, 
       });
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handlePayNow = async () => {
+    if (!validateForm()) return;
+
+    setIsCheckingOut(true);
+
+    try {
+      // First submit the booking
+      const idempotencyKey = `${email}-${date?.toISOString()}-${selectedPackage.id}-${Date.now()}`;
+
+      await supabase.functions.invoke('submit-booking', {
+        body: {
+          idempotency_key: idempotencyKey,
+          package_id: selectedPackage.id,
+          package_name: selectedPackage.name,
+          base_price: base,
+          add_on_ids: selectedAddOnIds,
+          total_price: total,
+          session_date: date?.toISOString().split('T')[0],
+          client_name: name.trim(),
+          client_email: email.trim(),
+          client_phone: phone.trim() || null,
+          property_address: address.trim(),
+          notes: notes.trim() || null,
+        },
+      });
+
+      // Then create Stripe checkout
+      const addOnPriceIds = selectedAddOnIds
+        .map((id) => allAddOns.find((a) => a.id === id)?.stripePriceId)
+        .filter(Boolean);
+
+      const { data, error } = await supabase.functions.invoke('create-checkout', {
+        body: {
+          packagePriceId: selectedPackage.stripePriceId,
+          addOnPriceIds,
+          customerEmail: email.trim(),
+          customerName: name.trim(),
+        },
+      });
+
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+
+      if (data?.url) {
+        window.open(data.url, '_blank');
+      }
+    } catch (err: any) {
+      console.error('Checkout error:', err);
+      toast({
+        title: 'Checkout Failed',
+        description: err.message || 'Something went wrong. Please try again.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsCheckingOut(false);
     }
   };
 
@@ -198,19 +262,42 @@ const BookingForm = ({ selectedPackage, selectedAddOnIds, selectedAddOns, base, 
           </div>
         </div>
 
-        {/* Submit */}
-        <Button
-          asChild
-          size="lg"
-          className="w-full sm:w-auto bg-gradient-red hover:opacity-90 text-primary-foreground font-semibold px-10"
-        >
-          <a href="https://calendly.com/maplekeymedia" target="_blank" rel="noopener noreferrer">
-            <span className="flex items-center gap-2">
-              <Camera className="h-4 w-4" />
-              Schedule a Call
-            </span>
-          </a>
-        </Button>
+        {/* Actions */}
+        <div className="flex flex-col sm:flex-row gap-4">
+          <Button
+            type="button"
+            size="lg"
+            disabled={isCheckingOut}
+            onClick={handlePayNow}
+            className="w-full sm:w-auto bg-gradient-red hover:opacity-90 text-primary-foreground font-semibold px-10"
+          >
+            {isCheckingOut ? (
+              <span className="flex items-center gap-2">
+                <span className="h-4 w-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
+                Processing...
+              </span>
+            ) : (
+              <span className="flex items-center gap-2">
+                <CreditCard className="h-4 w-4" />
+                Pay Now — ${total}
+              </span>
+            )}
+          </Button>
+
+          <Button
+            asChild
+            size="lg"
+            variant="outline"
+            className="w-full sm:w-auto font-semibold px-10"
+          >
+            <a href="https://calendly.com/maplekeymedia" target="_blank" rel="noopener noreferrer">
+              <span className="flex items-center gap-2">
+                <Camera className="h-4 w-4" />
+                Schedule a Call
+              </span>
+            </a>
+          </Button>
+        </div>
       </form>
     </>
   );
