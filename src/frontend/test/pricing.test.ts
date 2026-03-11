@@ -18,7 +18,7 @@ describe('calculateTotal', () => {
   });
 
   it('handles single add-on', () => {
-    const addOns: AddOn[] = [{ id: 'x', label: 'Reel', price: 150 }];
+    const addOns: AddOn[] = [{ id: 'x', label: 'Reel', price: 150, stripePriceId: 'price_test3' }];
     const result = calculateTotal(750, addOns);
     expect(result.total).toBe(900);
   });
