@@ -24,7 +24,7 @@ describe('calculateTotal', () => {
   });
 
   it('handles zero base price', () => {
-    const result = calculateTotal(0, [{ id: 'a', label: 'Test', price: 50 }]);
+    const result = calculateTotal(0, [{ id: 'a', label: 'Test', price: 50, stripePriceId: 'price_test4' }]);
     expect(result.total).toBe(50);
   });
 });
