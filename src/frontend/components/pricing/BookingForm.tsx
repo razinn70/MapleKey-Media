@@ -200,22 +200,16 @@ const BookingForm = ({ selectedPackage, selectedAddOnIds, selectedAddOns, base, 
 
         {/* Submit */}
         <Button
-          type="submit"
+          asChild
           size="lg"
-          disabled={isSubmitting}
           className="w-full sm:w-auto bg-gradient-red hover:opacity-90 text-primary-foreground font-semibold px-10"
         >
-          {isSubmitting ? (
-            <span className="flex items-center gap-2">
-              <span className="h-4 w-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
-              Booking...
-            </span>
-          ) : (
+          <a href="https://calendly.com/maplekeymedia" target="_blank" rel="noopener noreferrer">
             <span className="flex items-center gap-2">
               <Camera className="h-4 w-4" />
-              Book Session — ${total}
+              Schedule a Call
             </span>
-          )}
+          </a>
         </Button>
       </form>
     </>

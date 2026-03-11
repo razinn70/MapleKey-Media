@@ -42,8 +42,8 @@ const Hero = () => {
 
           <div className="flex justify-center animate-fade-up" style={{ animationDelay: '0.3s' }}>
             <Button asChild size="lg" className="bg-gradient-red hover:opacity-90 text-primary-foreground font-semibold px-8 py-6 text-lg gap-2 group">
-              <a href="#pricing">
-                Get a Quote
+              <a href="https://calendly.com/maplekeymedia" target="_blank" rel="noopener noreferrer">
+                Schedule a Call
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </a>
             </Button>
