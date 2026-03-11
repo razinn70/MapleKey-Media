@@ -10,8 +10,8 @@ describe('calculateTotal', () => {
 
   it('sums add-ons correctly', () => {
     const addOns: AddOn[] = [
-      { id: 'a', label: 'Drone', price: 75 },
-      { id: 'b', label: 'Twilight', price: 100 },
+      { id: 'a', label: 'Drone', price: 75, stripePriceId: 'price_test1' },
+      { id: 'b', label: 'Twilight', price: 100, stripePriceId: 'price_test2' },
     ];
     const result = calculateTotal(450, addOns);
     expect(result).toEqual({ base: 450, addOnsTotal: 175, total: 625 });
