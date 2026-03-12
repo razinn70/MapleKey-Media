@@ -4,7 +4,7 @@ import Services from '@/components/Services';
 import PricingAndBooking from '@/components/PricingAndBooking';
 import Portfolio from '@/components/Portfolio';
 import BeforeAfterSlider from '@/components/BeforeAfterSlider';
-import Testimonials from '@/components/Testimonials';
+
 import About from '@/components/About';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
