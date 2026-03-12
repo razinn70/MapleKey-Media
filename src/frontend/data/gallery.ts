@@ -1,3 +1,5 @@
+import marketingFlyer1 from '@/assets/marketing-flyer-1.png';
+import marketingFlyer2 from '@/assets/marketing-flyer-2.jpg';
 import galleryKitchenModern2 from '@/assets/gallery-kitchen-modern-2.jpg';
 import galleryLivingElegant from '@/assets/gallery-living-room-elegant.jpg';
 import galleryDiningFormal from '@/assets/gallery-dining-formal.jpg';
