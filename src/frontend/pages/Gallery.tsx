@@ -25,10 +25,15 @@ const GalleryPage = () => {
   }, [activeCategory]);
 
   const shortFormItems = useMemo(() => {
-    const items = activeCategory === 'All' || activeCategory === 'Short-Form'
+    return activeCategory === 'All' || activeCategory === 'Short-Form'
       ? galleryItems.filter((item) => item.category === 'Short-Form')
       : [];
-    return items;
+  }, [activeCategory]);
+
+  const marketingItems = useMemo(() => {
+    return activeCategory === 'All' || activeCategory === 'Marketing'
+      ? galleryItems.filter((item) => item.category === 'Marketing')
+      : [];
   }, [activeCategory]);
 
   const visiblePhotos = photoItems.slice(0, visibleCount);
