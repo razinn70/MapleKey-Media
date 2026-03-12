@@ -80,10 +80,15 @@ const GalleryLightbox = ({ items, currentIndex, open, onOpenChange, onNavigate }
           </button>
         </div>
 
-        {/* Caption */}
+        {/* Caption + Description */}
         <div className="px-6 pb-5 pt-3">
-          <h3 className="font-display text-lg font-bold text-secondary-foreground">{current.title}</h3>
-          <span className="text-primary text-sm font-medium">{current.category}</span>
+          <div className="flex items-center gap-3 mb-2">
+            <h3 className="font-display text-lg font-bold text-secondary-foreground">{current.title}</h3>
+            <span className="text-primary text-sm font-medium">{current.category}</span>
+          </div>
+          {current.description && (
+            <p className="text-muted-foreground text-sm leading-relaxed">{current.description}</p>
+          )}
         </div>
       </DialogContent>
     </Dialog>
