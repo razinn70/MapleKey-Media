@@ -111,13 +111,23 @@ const GalleryPage = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {shortFormItems.map((item) => (
                   <div key={item.id} className="relative rounded-lg overflow-hidden aspect-[9/16] bg-muted">
-                    <video
-                      src={item.videoSrc}
-                      className="w-full h-full object-cover"
-                      controls
-                      playsInline
-                      preload="metadata"
-                    />
+                    {item.instagramUrl ? (
+                      <iframe
+                        src={`${item.instagramUrl}embed/`}
+                        className="w-full h-full border-0"
+                        allowFullScreen
+                        loading="lazy"
+                        title={item.title}
+                      />
+                    ) : item.videoSrc ? (
+                      <video
+                        src={item.videoSrc}
+                        className="w-full h-full object-cover"
+                        controls
+                        playsInline
+                        preload="metadata"
+                      />
+                    ) : null}
                   </div>
                 ))}
               </div>
