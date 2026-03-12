@@ -1,3 +1,4 @@
+import galleryKitchenModern2 from '@/assets/gallery-kitchen-modern-2.jpg';
 import galleryLivingElegant from '@/assets/gallery-living-room-elegant.jpg';
 import galleryDiningFormal from '@/assets/gallery-dining-formal.jpg';
 import galleryLivingCoastal from '@/assets/gallery-living-coastal.jpg';
@@ -8,7 +9,6 @@ import galleryDiningNook from '@/assets/gallery-dining-nook.jpg';
 import galleryKitchenWood from '@/assets/gallery-kitchen-wood.jpg';
 import galleryEntryway from '@/assets/gallery-entryway.jpg';
 import galleryStaircase from '@/assets/gallery-staircase.jpg';
-import portfolio3 from '@/assets/portfolio-3.webp';
 
 export interface GalleryItem {
   id: string;
@@ -22,6 +22,14 @@ export interface GalleryItem {
 export const galleryItems: GalleryItem[] = [
   {
     id: '1',
+    src: galleryKitchenModern2,
+    alt: 'Modern White Kitchen with Patio Access',
+    title: 'Modern Kitchen & Patio',
+    description: 'A bright, contemporary kitchen featuring white shaker cabinetry, quartz countertops, and a stylish tile backsplash. The sliding patio door floods the space with natural light and connects indoor living to the private backyard.',
+    category: 'Photography',
+  },
+  {
+    id: '2',
     src: galleryLivingElegant,
     alt: 'Elegant Living Room with Tufted Sofas',
     title: 'Elegant Living Room',
@@ -29,7 +37,7 @@ export const galleryItems: GalleryItem[] = [
     category: 'Photography',
   },
   {
-    id: '2',
+    id: '3',
     src: galleryDiningFormal,
     alt: 'Formal Dining Room with Crystal Chandelier',
     title: 'Grand Formal Dining',
@@ -37,7 +45,7 @@ export const galleryItems: GalleryItem[] = [
     category: 'Photography',
   },
   {
-    id: '3',
+    id: '4',
     src: galleryLivingCoastal,
     alt: 'Coastal-Themed Living Room',
     title: 'Coastal Living Room',
@@ -45,7 +53,7 @@ export const galleryItems: GalleryItem[] = [
     category: 'Photography',
   },
   {
-    id: '4',
+    id: '5',
     src: galleryBedroomMaster,
     alt: 'Serene Master Bedroom',
     title: 'Serene Master Suite',
@@ -53,7 +61,7 @@ export const galleryItems: GalleryItem[] = [
     category: 'Photography',
   },
   {
-    id: '5',
+    id: '6',
     src: galleryKitchenModern,
     alt: 'Modern White Kitchen with Island',
     title: 'Contemporary White Kitchen',
@@ -61,7 +69,7 @@ export const galleryItems: GalleryItem[] = [
     category: 'Photography',
   },
   {
-    id: '6',
+    id: '7',
     src: galleryLivingWindow,
     alt: 'Sun-Filled Living Room',
     title: 'Sun-Drenched Living Space',
@@ -69,7 +77,7 @@ export const galleryItems: GalleryItem[] = [
     category: 'Photography',
   },
   {
-    id: '7',
+    id: '8',
     src: galleryDiningNook,
     alt: 'Modern Dining Nook',
     title: 'Intimate Dining Nook',
@@ -77,7 +85,7 @@ export const galleryItems: GalleryItem[] = [
     category: 'Photography',
   },
   {
-    id: '8',
+    id: '9',
     src: galleryKitchenWood,
     alt: 'Warm Wood Kitchen',
     title: 'Classic Wood-Tone Kitchen',
@@ -85,7 +93,7 @@ export const galleryItems: GalleryItem[] = [
     category: 'Photography',
   },
   {
-    id: '9',
+    id: '10',
     src: galleryEntryway,
     alt: 'Welcoming Home Entryway',
     title: 'Bright Entryway & Foyer',
@@ -93,25 +101,13 @@ export const galleryItems: GalleryItem[] = [
     category: 'Photography',
   },
   {
-    id: '10',
+    id: '11',
     src: galleryStaircase,
     alt: 'Oak Staircase Detail',
     title: 'Architectural Staircase',
     description: 'Shot from above, this dramatic angle captures the craftsmanship of the solid oak banister and newel post. The overhead perspective and natural light emphasize the home\'s quality construction and architectural detail.',
     category: 'Photography',
   },
-  // Drone & Video placeholders using existing assets
-  { id: '11', src: portfolio3, alt: 'Luxury Estate Aerial', title: 'Luxury Estate Aerial', description: 'A sweeping aerial view of a sprawling luxury estate, showcasing the full property layout, manicured grounds, and surrounding landscape from above.', category: 'Drone' },
-  { id: '12', src: portfolio3, alt: 'Suburban Home Aerial', title: 'Suburban Home Aerial', description: 'This bird\'s-eye perspective reveals the neighbourhood context, lot size, and curb appeal of a well-maintained suburban property.', category: 'Drone' },
-  { id: '13', src: portfolio3, alt: 'Estate Grounds Flyover', title: 'Estate Grounds Flyover', description: 'A cinematic flyover capturing expansive grounds, mature trees, and the grandeur of this countryside estate from a dramatic aerial vantage point.', category: 'Drone' },
-  { id: '14', src: portfolio3, alt: 'Rooftop Terrace Aerial', title: 'Rooftop Terrace Aerial', description: 'An elevated drone shot highlighting a stunning rooftop terrace with panoramic views, perfect for showcasing premium urban living.', category: 'Drone' },
-  { id: '15', src: portfolio3, alt: 'Lakeside Villa Aerial', title: 'Lakeside Villa Aerial', description: 'Captured at golden hour, this aerial shot of a lakeside villa emphasizes its waterfront position and private dock access.', category: 'Drone' },
-  { id: '16', src: portfolio3, alt: 'Waterfront Property Tour', title: 'Waterfront Property Tour', description: 'A guided walkthrough video of a stunning waterfront home, highlighting ocean views, open-concept living, and luxury finishes.', category: 'Video' },
-  { id: '17', src: portfolio3, alt: 'Property Walkthrough', title: 'Property Walkthrough', description: 'A smooth, cinematic walkthrough capturing every room and transition, giving remote buyers a true sense of the home\'s flow and feel.', category: 'Video' },
-  { id: '18', src: portfolio3, alt: 'Neighbourhood Tour Video', title: 'Neighbourhood Tour Video', description: 'Beyond the property itself, this video showcases nearby parks, schools, and amenities — telling the full story of the neighbourhood.', category: 'Video' },
-  { id: '19', src: portfolio3, alt: 'Kitchen Renovation Reel', title: 'Kitchen Renovation Reel', description: 'A punchy short-form reel showing a dramatic kitchen before-and-after transformation, optimized for social media engagement.', category: 'Short-Form' },
-  { id: '20', src: portfolio3, alt: 'Before & After Reel', title: 'Before & After Reel', description: 'Side-by-side staging transformations condensed into an engaging 30-second reel that stops the scroll and drives listing inquiries.', category: 'Short-Form' },
-  { id: '21', src: portfolio3, alt: 'Listing Highlight Reel', title: 'Listing Highlight Reel', description: 'The best moments of a property listing distilled into a fast-paced, music-driven reel designed for Instagram and TikTok reach.', category: 'Short-Form' },
 ];
 
-export const galleryCategories = ['All', 'Photography', 'Video', 'Drone', 'Short-Form'] as const;
+export const galleryCategories = ['All', 'Photography'] as const;
