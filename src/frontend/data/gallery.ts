@@ -20,7 +20,7 @@ export interface GalleryItem {
   alt: string;
   title: string;
   description: string;
-  category: 'Photography' | 'Video' | 'Drone' | 'Short-Form';
+  category: 'Photography' | 'Video' | 'Drone' | 'Short-Form' | 'Marketing';
 }
 
 export const galleryItems: GalleryItem[] = [
