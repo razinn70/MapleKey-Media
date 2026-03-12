@@ -175,6 +175,24 @@ export const galleryItems: GalleryItem[] = [
     description: 'A polished listing highlight reel that showcases the property\'s best angles and features in a format optimized for Instagram reach.',
     category: 'Short-Form',
   },
+  {
+    id: '19',
+    src: '',
+    instagramUrl: 'https://www.instagram.com/reel/DT6ycv3jjXB/',
+    alt: 'Instagram Reel - Styled Interior',
+    title: 'Styled Interior Reel',
+    description: 'A beautifully styled interior walkthrough reel capturing the essence of modern living, optimized for maximum social media engagement.',
+    category: 'Short-Form',
+  },
+  {
+    id: '20',
+    src: '',
+    instagramUrl: 'https://www.instagram.com/reel/DVjdQBEDuvD/',
+    alt: 'Instagram Reel - Property Highlights',
+    title: 'Property Highlights Reel',
+    description: 'A dynamic highlights reel showcasing standout features of the property with professional editing and smooth transitions.',
+    category: 'Short-Form',
+  },
 ];
 
 export const galleryCategories = ['All', 'Photography', 'Short-Form'] as const;
