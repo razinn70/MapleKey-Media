@@ -167,6 +167,23 @@ export const galleryItems: GalleryItem[] = [
     description: 'A dynamic highlights reel showcasing standout features of the property with professional editing and smooth transitions.',
     category: 'Short-Form',
   },
+  // Marketing Materials
+  {
+    id: '21',
+    src: marketingFlyer1,
+    alt: 'Real Estate Marketing Flyer - St George Ontario',
+    title: 'Just Sold Flyer — St George',
+    description: 'A bold black, red, and white "Another Home Sold" marketing flyer featuring property photos and agent branding for 303 Highway 5, St George, Ontario.',
+    category: 'Marketing',
+  },
+  {
+    id: '22',
+    src: marketingFlyer2,
+    alt: 'Real Estate Marketing Flyer - Cambridge Ontario',
+    title: 'Just Sold Flyer — Cambridge',
+    description: 'A striking "Another Home Sold" marketing flyer with exterior and interior photography, agent branding, and RE/MAX logo for 10-31 Mill Creek, Cambridge, Ontario.',
+    category: 'Marketing',
+  },
 ];
 
-export const galleryCategories = ['All', 'Photography', 'Short-Form'] as const;
+export const galleryCategories = ['All', 'Photography', 'Short-Form', 'Marketing'] as const;
