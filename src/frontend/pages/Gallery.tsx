@@ -25,10 +25,15 @@ const GalleryPage = () => {
   }, [activeCategory]);
 
   const shortFormItems = useMemo(() => {
-    const items = activeCategory === 'All' || activeCategory === 'Short-Form'
+    return activeCategory === 'All' || activeCategory === 'Short-Form'
       ? galleryItems.filter((item) => item.category === 'Short-Form')
       : [];
-    return items;
+  }, [activeCategory]);
+
+  const marketingItems = useMemo(() => {
+    return activeCategory === 'All' || activeCategory === 'Marketing'
+      ? galleryItems.filter((item) => item.category === 'Marketing')
+      : [];
   }, [activeCategory]);
 
   const visiblePhotos = photoItems.slice(0, visibleCount);
@@ -128,6 +133,37 @@ const GalleryPage = () => {
                         preload="metadata"
                       />
                     ) : null}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Marketing Materials Section */}
+          {marketingItems.length > 0 && (
+            <div className={visiblePhotos.length > 0 || shortFormItems.length > 0 ? 'mt-20' : ''}>
+              <div className="mb-8">
+                <span className="text-primary font-semibold text-sm uppercase tracking-wider">Marketing</span>
+                <h2 className="font-display text-2xl sm:text-3xl font-bold text-foreground mt-2">
+                  Marketing Materials
+                </h2>
+                <p className="text-muted-foreground mt-2 max-w-xl text-sm">
+                  Custom-designed flyers, social graphics, and branding collateral for real estate professionals.
+                </p>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {marketingItems.map((item) => (
+                  <div key={item.id} className="relative rounded-lg overflow-hidden bg-muted shadow-md">
+                    <img
+                      src={item.src}
+                      alt={item.alt}
+                      className="w-full h-auto object-contain"
+                      loading="lazy"
+                    />
+                    <div className="p-4">
+                      <h3 className="font-semibold text-foreground text-sm">{item.title}</h3>
+                      <p className="text-muted-foreground text-xs mt-1">{item.description}</p>
+                    </div>
                   </div>
                 ))}
               </div>
