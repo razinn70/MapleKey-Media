@@ -14,6 +14,7 @@ export interface GalleryItem {
   id: string;
   src: string;
   videoSrc?: string;
+  instagramUrl?: string;
   alt: string;
   title: string;
   description: string;
