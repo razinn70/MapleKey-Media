@@ -140,6 +140,15 @@ export const galleryItems: GalleryItem[] = [
   },
   // Short-Form Instagram Reels
   {
+    id: '18',
+    src: '',
+    instagramUrl: 'https://www.instagram.com/reel/DUMk5ZhDuTV/',
+    alt: 'Instagram Reel - Cinematic Property Tour',
+    title: 'Cinematic Property Tour',
+    description: 'A cinematic property tour reel that combines smooth transitions and dynamic angles to showcase every detail of the listing.',
+    category: 'Short-Form',
+  },
+  {
     id: '15',
     src: '',
     instagramUrl: 'https://www.instagram.com/reel/DVwV5nWDvEy/',
