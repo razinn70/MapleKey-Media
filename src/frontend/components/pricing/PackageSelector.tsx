@@ -20,10 +20,18 @@ const PackageSelector = ({ selectedPackageId, onSelect }: PackageSelectorProps) 
               : 'border-border bg-card hover:border-primary/40'
           }`}
         >
+          {pkg.discountLabel && (
+            <span className="inline-block bg-primary text-primary-foreground text-xs font-bold px-2 py-0.5 rounded mb-2">
+              {pkg.discountLabel}
+            </span>
+          )}
           <h3 className="font-display text-xl font-bold text-foreground">{pkg.name}</h3>
           <p className="text-muted-foreground text-sm mt-1 mb-4">{pkg.description}</p>
           <div className="text-3xl font-bold text-foreground mb-6">
             ${pkg.basePrice}
+            {pkg.originalPrice && (
+              <span className="text-lg line-through text-muted-foreground ml-2 font-normal">${pkg.originalPrice}</span>
+            )}
             <span className="text-sm font-normal text-muted-foreground"> / session</span>
           </div>
           <ul className="space-y-2">

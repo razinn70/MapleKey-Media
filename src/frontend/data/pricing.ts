@@ -3,6 +3,8 @@ export interface Package {
   name: string;
   description: string;
   basePrice: number;
+  originalPrice?: number;
+  discountLabel?: string;
   included: string[];
   stripePriceId: string;
 }
@@ -19,7 +21,9 @@ export const packages: Package[] = [
     id: 'standard',
     name: 'Standard',
     description: 'Essential media for single listings',
-    basePrice: 200,
+    basePrice: 187,
+    originalPrice: 250,
+    discountLabel: '25% OFF',
     included: ['Up to 25 HDR Photos', 'Basic Photo Editing', 'Same-Day Delivery', 'Web-Ready Formats'],
     stripePriceId: 'price_1T9uSAQS8CDhJNREIM9UWbhN',
   },
