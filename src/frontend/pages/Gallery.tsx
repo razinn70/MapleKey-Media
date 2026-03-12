@@ -17,13 +17,22 @@ const GalleryPage = () => {
     document.title = 'Portfolio | MapleKey Media';
   }, []);
 
-  const filtered = useMemo<GalleryItem[]>(() => {
-    if (activeCategory === 'All') return galleryItems;
-    return galleryItems.filter((item) => item.category === activeCategory);
+  const photoItems = useMemo(() => {
+    const items = activeCategory === 'All' || activeCategory === 'Photography'
+      ? galleryItems.filter((item) => item.category === 'Photography')
+      : [];
+    return items;
   }, [activeCategory]);
 
-  const visible = filtered.slice(0, visibleCount);
-  const hasMore = visibleCount < filtered.length;
+  const shortFormItems = useMemo(() => {
+    const items = activeCategory === 'All' || activeCategory === 'Short-Form'
+      ? galleryItems.filter((item) => item.category === 'Short-Form')
+      : [];
+    return items;
+  }, [activeCategory]);
+
+  const visiblePhotos = photoItems.slice(0, visibleCount);
+  const hasMore = visibleCount < photoItems.length;
 
   const handleCategoryChange = (cat: string) => {
     setActiveCategory(cat);
