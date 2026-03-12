@@ -78,19 +78,49 @@ const GalleryPage = () => {
             ))}
           </div>
 
-          {/* Grid */}
-          <GalleryGrid items={visible} columns={4} />
+          {/* Photography Grid */}
+          {visiblePhotos.length > 0 && (
+            <>
+              <GalleryGrid items={visiblePhotos} columns={4} />
+              {hasMore && (
+                <div className="flex justify-center mt-12">
+                  <Button
+                    onClick={() => setVisibleCount((c) => c + ITEMS_PER_PAGE)}
+                    variant="outline"
+                    className="gap-2 px-8"
+                  >
+                    Load more
+                  </Button>
+                </div>
+              )}
+            </>
+          )}
 
-          {/* Load More */}
-          {hasMore && (
-            <div className="flex justify-center mt-12">
-              <Button
-                onClick={() => setVisibleCount((c) => c + ITEMS_PER_PAGE)}
-                variant="outline"
-                className="gap-2 px-8"
-              >
-                Load more
-              </Button>
+          {/* Short-Form Section */}
+          {shortFormItems.length > 0 && (
+            <div className={visiblePhotos.length > 0 ? 'mt-20' : ''}>
+              <div className="mb-8">
+                <span className="text-primary font-semibold text-sm uppercase tracking-wider">Short-Form</span>
+                <h2 className="font-display text-2xl sm:text-3xl font-bold text-foreground mt-2">
+                  Social Media Reels
+                </h2>
+                <p className="text-muted-foreground mt-2 max-w-xl text-sm">
+                  Scroll-stopping content crafted for Instagram Reels, TikTok, and YouTube Shorts.
+                </p>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {shortFormItems.map((item) => (
+                  <div key={item.id} className="relative rounded-lg overflow-hidden aspect-[9/16] bg-muted">
+                    <video
+                      src={item.videoSrc}
+                      className="w-full h-full object-cover"
+                      controls
+                      playsInline
+                      preload="metadata"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </div>
