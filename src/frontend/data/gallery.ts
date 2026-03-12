@@ -13,6 +13,7 @@ import galleryStaircase from '@/assets/gallery-staircase.jpg';
 export interface GalleryItem {
   id: string;
   src: string;
+  videoSrc?: string;
   alt: string;
   title: string;
   description: string;
