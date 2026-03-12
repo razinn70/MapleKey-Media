@@ -3,6 +3,8 @@ export interface Package {
   name: string;
   description: string;
   basePrice: number;
+  originalPrice?: number;
+  discountLabel?: string;
   included: string[];
   stripePriceId: string;
 }
