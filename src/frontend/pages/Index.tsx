@@ -36,9 +36,6 @@ const Index = () => {
         <ErrorBoundary section="before-after">
           <BeforeAfterSlider />
         </ErrorBoundary>
-        <ErrorBoundary section="testimonials">
-          <Testimonials />
-        </ErrorBoundary>
         <ErrorBoundary section="about">
           <About />
         </ErrorBoundary>
