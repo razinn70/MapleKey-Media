@@ -21,7 +21,7 @@ export const packages: Package[] = [
     id: 'standard',
     name: 'Standard',
     description: 'Essential media for single listings',
-    basePrice: 187,
+    basePrice: 200,
     originalPrice: 250,
     discountLabel: '25% OFF',
     included: ['Up to 25 HDR Photos', 'Basic Photo Editing', 'Same-Day Delivery', 'Web-Ready Formats'],
