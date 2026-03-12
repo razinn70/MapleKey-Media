@@ -110,34 +110,6 @@ export const galleryItems: GalleryItem[] = [
     description: 'Shot from above, this dramatic angle captures the craftsmanship of the solid oak banister and newel post. The overhead perspective and natural light emphasize the home\'s quality construction and architectural detail.',
     category: 'Photography',
   },
-  // Short-Form Videos (local)
-  {
-    id: '12',
-    src: '',
-    videoSrc: '/videos/short-form-1.mov',
-    alt: 'Property Highlight Reel',
-    title: 'Property Highlight Reel',
-    description: 'A fast-paced, scroll-stopping reel showcasing the best features of a staged property — designed for maximum engagement on Instagram and TikTok.',
-    category: 'Short-Form',
-  },
-  {
-    id: '13',
-    src: '',
-    videoSrc: '/videos/short-form-2.mov',
-    alt: 'Interior Walkthrough Reel',
-    title: 'Interior Walkthrough',
-    description: 'A smooth, cinematic walkthrough condensed into a punchy short-form video that gives viewers the full feel of the home in under 60 seconds.',
-    category: 'Short-Form',
-  },
-  {
-    id: '14',
-    src: '',
-    videoSrc: '/videos/short-form-3.mov',
-    alt: 'Staging Transformation Reel',
-    title: 'Staging Transformation',
-    description: 'A dynamic before-and-after staging reel that captures the dramatic transformation, perfect for driving listing inquiries on social media.',
-    category: 'Short-Form',
-  },
   // Short-Form Instagram Reels
   {
     id: '18',
