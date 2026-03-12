@@ -110,6 +110,62 @@ export const galleryItems: GalleryItem[] = [
     description: 'Shot from above, this dramatic angle captures the craftsmanship of the solid oak banister and newel post. The overhead perspective and natural light emphasize the home\'s quality construction and architectural detail.',
     category: 'Photography',
   },
+  // Short-Form Videos (local)
+  {
+    id: '12',
+    src: '',
+    videoSrc: '/videos/short-form-1.mov',
+    alt: 'Property Highlight Reel',
+    title: 'Property Highlight Reel',
+    description: 'A fast-paced, scroll-stopping reel showcasing the best features of a staged property — designed for maximum engagement on Instagram and TikTok.',
+    category: 'Short-Form',
+  },
+  {
+    id: '13',
+    src: '',
+    videoSrc: '/videos/short-form-2.mov',
+    alt: 'Interior Walkthrough Reel',
+    title: 'Interior Walkthrough',
+    description: 'A smooth, cinematic walkthrough condensed into a punchy short-form video that gives viewers the full feel of the home in under 60 seconds.',
+    category: 'Short-Form',
+  },
+  {
+    id: '14',
+    src: '',
+    videoSrc: '/videos/short-form-3.mov',
+    alt: 'Staging Transformation Reel',
+    title: 'Staging Transformation',
+    description: 'A dynamic before-and-after staging reel that captures the dramatic transformation, perfect for driving listing inquiries on social media.',
+    category: 'Short-Form',
+  },
+  // Short-Form Instagram Reels
+  {
+    id: '15',
+    src: '',
+    instagramUrl: 'https://www.instagram.com/reel/DVwV5nWDvEy/',
+    alt: 'Instagram Reel - Property Showcase',
+    title: 'Property Showcase Reel',
+    description: 'A captivating Instagram Reel highlighting stunning property features with professional cinematography and engaging transitions.',
+    category: 'Short-Form',
+  },
+  {
+    id: '16',
+    src: '',
+    instagramUrl: 'https://www.instagram.com/reel/DVeibKdAVf5/',
+    alt: 'Instagram Reel - Home Tour',
+    title: 'Home Tour Reel',
+    description: 'An immersive home tour captured in short-form format, designed to maximize engagement and drive buyer interest through social media.',
+    category: 'Short-Form',
+  },
+  {
+    id: '17',
+    src: '',
+    instagramUrl: 'https://www.instagram.com/reel/DT_qRn2DpXR/',
+    alt: 'Instagram Reel - Listing Feature',
+    title: 'Listing Feature Reel',
+    description: 'A polished listing highlight reel that showcases the property\'s best angles and features in a format optimized for Instagram reach.',
+    category: 'Short-Form',
+  },
 ];
 
-export const galleryCategories = ['All', 'Photography'] as const;
+export const galleryCategories = ['All', 'Photography', 'Short-Form'] as const;
