@@ -6,6 +6,24 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
+const ALLOWED_ORIGINS = new Set([
+  "https://maplekey.media",
+  "https://www.maplekey.media",
+  "https://maplekeymedia.lovable.app",
+  "http://localhost:8080",
+]);
+
+function verifyOrigin(req: Request): Response | null {
+  const origin = req.headers.get("origin") ?? "";
+  if (!ALLOWED_ORIGINS.has(origin)) {
+    return new Response(
+      JSON.stringify({ error: "Invalid request origin" }),
+      { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+    );
+  }
+  return null;
+}
+
 const ADMIN_EMAIL = "maplekeymedia@gmail.com";
 
 // Server-side price catalog (single source of truth)
