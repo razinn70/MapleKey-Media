@@ -92,12 +92,12 @@
 ### Testing
 
 - [x] **Unit tests** — Vitest tests for `calculateTotal()`, Zod schemas (19 passing).
-- [ ] **Integration tests** — Booking and contact form E2E flows (optional, post-launch).
-- [ ] **E2E tests** — Playwright tests for critical paths.
+- [x] **Integration tests** — Booking flow and contact form E2E tests added.
+- [x] **E2E tests** — Playwright tests: booking-flow, contact-form, navigation specs.
 
 ### Monitoring & Analytics
 
-- [ ] **Analytics** — Add GA4 or Plausible.
+- [x] **Analytics** — GA4 integrated (G-D18JJ799YC) with tracked events: contact_submitted, booking_started, booking_completed, checkout_started, checkout_success.
 - [ ] **Error tracking** — Add Sentry or similar.
 
 ---
