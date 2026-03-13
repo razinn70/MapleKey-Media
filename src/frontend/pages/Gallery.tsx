@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { galleryItems, galleryCategories, type GalleryItem } from '@/data/gallery';
 import GalleryGrid from '@/components/GalleryGrid';
+import VideoGallery from '@/components/VideoGallery';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
@@ -101,7 +102,12 @@ const GalleryPage = () => {
             </>
           )}
 
-          {/* Short-Form Section */}
+          {/* Video Tours & Drone Section */}
+          {(activeCategory === 'All' || activeCategory === 'Video') && (
+            <div className={visiblePhotos.length > 0 ? 'mt-20' : ''}>
+              <VideoGallery />
+            </div>
+          )}
           {shortFormItems.length > 0 && (
             <div className={visiblePhotos.length > 0 ? 'mt-20' : ''}>
               <div className="mb-8">

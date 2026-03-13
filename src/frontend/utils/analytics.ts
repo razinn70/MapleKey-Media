@@ -21,13 +21,23 @@ export const trackEvent = (eventName: string, params?: EventParams): void => {
 
 // Pre-defined events for type safety
 export const analytics = {
+  contactSubmitted: () => trackEvent('contact_submitted'),
+
+  bookingStarted: (params: {
+    package_name: string;
+    total_price: number;
+  }) => trackEvent('booking_started', params),
+
+  bookingCompleted: (params: {
+    package_name: string;
+    total_price: number;
+  }) => trackEvent('booking_completed', params),
+
   bookingSubmitted: (params: {
     package_name: string;
     total_price: number;
     add_on_count: number;
   }) => trackEvent('booking_submitted', params),
-
-  contactSubmitted: () => trackEvent('contact_form_submitted'),
 
   bookingConfirmed: (params: {
     package_name: string;
@@ -37,7 +47,16 @@ export const analytics = {
   checkoutStarted: (params: {
     package_name: string;
     total_price: number;
-  }) => trackEvent('begin_checkout', {
+  }) => trackEvent('checkout_started', {
+    currency: 'CAD',
+    value: params.total_price,
+    items: params.package_name,
+  }),
+
+  checkoutSuccess: (params: {
+    package_name: string;
+    total_price: number;
+  }) => trackEvent('checkout_success', {
     currency: 'CAD',
     value: params.total_price,
     items: params.package_name,
