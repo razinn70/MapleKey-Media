@@ -102,7 +102,12 @@ const GalleryPage = () => {
             </>
           )}
 
-          {/* Short-Form Section */}
+          {/* Video Tours & Drone Section */}
+          {(activeCategory === 'All' || activeCategory === 'Video') && (
+            <div className={visiblePhotos.length > 0 ? 'mt-20' : ''}>
+              <VideoGallery />
+            </div>
+          )}
           {shortFormItems.length > 0 && (
             <div className={visiblePhotos.length > 0 ? 'mt-20' : ''}>
               <div className="mb-8">

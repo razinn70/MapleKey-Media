@@ -186,4 +186,4 @@ export const galleryItems: GalleryItem[] = [
   },
 ];
 
-export const galleryCategories = ['All', 'Photography', 'Short-Form', 'Marketing'] as const;
+export const galleryCategories = ['All', 'Photography', 'Video', 'Short-Form', 'Marketing'] as const;
