@@ -37,7 +37,19 @@ const ALLOWED_ORIGINS = new Set([
   "https://maplekeymedia.ca",
   "https://www.maplekeymedia.ca",
   "https://maplekeymedia.lovable.app",
+  "http://localhost:8080",
 ]);
+
+function verifyOrigin(req: Request): Response | null {
+  const origin = req.headers.get("origin") ?? "";
+  if (!ALLOWED_ORIGINS.has(origin)) {
+    return new Response(
+      JSON.stringify({ error: "Invalid request origin" }),
+      { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+    );
+  }
+  return null;
+}
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
