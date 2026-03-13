@@ -31,6 +31,14 @@ function isRateLimited(ip: string, maxPerMin = 10): boolean {
   return false;
 }
 
+const ALLOWED_ORIGINS = new Set([
+  "https://maplekey.media",
+  "https://www.maplekey.media",
+  "https://maplekeymedia.ca",
+  "https://www.maplekeymedia.ca",
+  "https://maplekeymedia.lovable.app",
+]);
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
