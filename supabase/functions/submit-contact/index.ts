@@ -123,6 +123,23 @@ Deno.serve(async (req) => {
       }),
     }).catch((e) => console.error("Email trigger failed:", e));
 
+    // Fire-and-forget TikTok server-side event
+    fetch(`${supabaseUrl}/functions/v1/tiktok-event`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${serviceKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        event: "SubmitForm",
+        email: body.email.trim().toLowerCase(),
+        phone: body.phone || undefined,
+        content_name: "Contact Form",
+        ip: req.headers.get("x-forwarded-for") ?? undefined,
+        user_agent: req.headers.get("user-agent") ?? undefined,
+      }),
+    }).catch((e) => console.error("TikTok event failed:", e));
+
     return new Response(
       JSON.stringify({ success: true }),
       { status: 201, headers: { ...corsHeaders, "Content-Type": "application/json" } }
