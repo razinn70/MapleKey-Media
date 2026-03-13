@@ -31,6 +31,14 @@ function isRateLimited(ip: string, maxPerMin = 10): boolean {
   return false;
 }
 
+const ALLOWED_ORIGINS = new Set([
+  "https://maplekey.media",
+  "https://www.maplekey.media",
+  "https://maplekeymedia.ca",
+  "https://www.maplekeymedia.ca",
+  "https://maplekeymedia.lovable.app",
+]);
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -102,8 +110,8 @@ serve(async (req) => {
       customer_email: customerId ? undefined : customerEmail || undefined,
       line_items: lineItems,
       mode: "payment",
-      success_url: `${req.headers.get("origin")}/booking/confirmed?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${req.headers.get("origin")}/#pricing`,
+      success_url: `${ALLOWED_ORIGINS.has(req.headers.get("origin") ?? "") ? req.headers.get("origin") : "https://maplekeymedia.ca"}/booking/confirmed?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${ALLOWED_ORIGINS.has(req.headers.get("origin") ?? "") ? req.headers.get("origin") : "https://maplekeymedia.ca"}/#pricing`,
       metadata: {
         customer_name: customerName || "",
       },
