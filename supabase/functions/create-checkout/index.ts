@@ -110,8 +110,8 @@ serve(async (req) => {
       customer_email: customerId ? undefined : customerEmail || undefined,
       line_items: lineItems,
       mode: "payment",
-      success_url: `${req.headers.get("origin")}/booking/confirmed?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${req.headers.get("origin")}/#pricing`,
+      success_url: `${ALLOWED_ORIGINS.has(req.headers.get("origin") ?? "") ? req.headers.get("origin") : "https://maplekeymedia.ca"}/booking/confirmed?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${ALLOWED_ORIGINS.has(req.headers.get("origin") ?? "") ? req.headers.get("origin") : "https://maplekeymedia.ca"}/#pricing`,
       metadata: {
         customer_name: customerName || "",
       },
