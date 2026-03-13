@@ -200,7 +200,7 @@ const BookingForm = ({ selectedPackage, selectedAddOnIds, selectedAddOns, base, 
       </div>
 
       {/* Form */}
-      <form onSubmit={handleSubmit} className="space-y-8">
+      <form onSubmit={handleSubmit} className="space-y-8" noValidate>
         <div className="absolute -left-[9999px]" aria-hidden="true">
           <Input name="website" tabIndex={-1} autoComplete="off" />
         </div>
@@ -215,6 +215,8 @@ const BookingForm = ({ selectedPackage, selectedAddOnIds, selectedAddOns, base, 
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
+                aria-label="Pick a date"
+                aria-invalid={!!fieldErrors.session_date}
                 className={cn('w-full sm:w-[300px] justify-start text-left font-normal', !date && 'text-muted-foreground')}
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
@@ -232,7 +234,7 @@ const BookingForm = ({ selectedPackage, selectedAddOnIds, selectedAddOns, base, 
               />
             </PopoverContent>
           </Popover>
-          {fieldErrors.session_date && <p className="text-sm text-destructive">{fieldErrors.session_date}</p>}
+          {fieldErrors.session_date && <p className="text-sm text-destructive" role="alert">{fieldErrors.session_date}</p>}
         </div>
 
         {/* Details */}
@@ -244,32 +246,32 @@ const BookingForm = ({ selectedPackage, selectedAddOnIds, selectedAddOns, base, 
           <div className="grid sm:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="booking-name">Full Name *</Label>
-              <Input id="booking-name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Jane Smith" maxLength={100} />
-              {fieldErrors.client_name && <p className="text-sm text-destructive">{fieldErrors.client_name}</p>}
+              <Input id="booking-name" name="client_name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Jane Smith" maxLength={100} aria-invalid={!!fieldErrors.client_name} aria-describedby={fieldErrors.client_name ? 'booking-name-error' : undefined} />
+              {fieldErrors.client_name && <p id="booking-name-error" className="text-sm text-destructive" role="alert">{fieldErrors.client_name}</p>}
             </div>
             <div className="space-y-2">
               <Label htmlFor="booking-email">Email *</Label>
-              <Input id="booking-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="jane@realty.com" maxLength={255} />
-              {fieldErrors.client_email && <p className="text-sm text-destructive">{fieldErrors.client_email}</p>}
+              <Input id="booking-email" name="client_email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="jane@realty.com" maxLength={255} aria-invalid={!!fieldErrors.client_email} aria-describedby={fieldErrors.client_email ? 'booking-email-error' : undefined} />
+              {fieldErrors.client_email && <p id="booking-email-error" className="text-sm text-destructive" role="alert">{fieldErrors.client_email}</p>}
             </div>
             <div className="space-y-2">
               <Label htmlFor="booking-phone">Phone</Label>
-              <Input id="booking-phone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="(519) 555-0100" maxLength={20} />
-              {fieldErrors.client_phone && <p className="text-sm text-destructive">{fieldErrors.client_phone}</p>}
+              <Input id="booking-phone" name="client_phone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="(519) 555-0100" maxLength={20} aria-invalid={!!fieldErrors.client_phone} aria-describedby={fieldErrors.client_phone ? 'booking-phone-error' : undefined} />
+              {fieldErrors.client_phone && <p id="booking-phone-error" className="text-sm text-destructive" role="alert">{fieldErrors.client_phone}</p>}
             </div>
             <div className="space-y-2">
               <Label htmlFor="booking-address">Property Address *</Label>
               <div className="relative">
                 <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input id="booking-address" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="123 Main St, Kitchener, ON" maxLength={300} className="pl-10" />
+                <Input id="booking-address" name="property_address" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="123 Main St, Kitchener, ON" maxLength={300} className="pl-10" aria-invalid={!!fieldErrors.property_address} aria-describedby={fieldErrors.property_address ? 'booking-address-error' : undefined} />
               </div>
-              {fieldErrors.property_address && <p className="text-sm text-destructive">{fieldErrors.property_address}</p>}
+              {fieldErrors.property_address && <p id="booking-address-error" className="text-sm text-destructive" role="alert">{fieldErrors.property_address}</p>}
             </div>
           </div>
           <div className="space-y-2">
             <Label htmlFor="booking-notes">Additional Notes</Label>
-            <Textarea id="booking-notes" value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Any special requests, access codes, or details about the property..." maxLength={1000} rows={3} />
-            {fieldErrors.notes && <p className="text-sm text-destructive">{fieldErrors.notes}</p>}
+            <Textarea id="booking-notes" value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Any special requests, access codes, or details about the property..." maxLength={1000} rows={3} aria-invalid={!!fieldErrors.notes} aria-describedby={fieldErrors.notes ? 'booking-notes-error' : undefined} />
+            {fieldErrors.notes && <p id="booking-notes-error" className="text-sm text-destructive" role="alert">{fieldErrors.notes}</p>}
           </div>
         </div>
 

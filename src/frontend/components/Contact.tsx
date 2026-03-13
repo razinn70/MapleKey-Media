@@ -155,7 +155,7 @@ const Contact = () => {
           <div className="bg-card rounded-lg p-8 shadow-elevated border border-border">
             <h3 className="font-display text-2xl font-bold text-foreground mb-6">Send Us a Message</h3>
             
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6" noValidate>
               <div className="absolute -left-[9999px]" aria-hidden="true">
                 <Input name="website" tabIndex={-1} autoComplete="off" />
               </div>
@@ -171,8 +171,10 @@ const Contact = () => {
                     onChange={(e) => handleChange('firstName', e.target.value)}
                     placeholder="John"
                     maxLength={100}
+                    aria-invalid={!!fieldErrors.firstName}
+                    aria-describedby={fieldErrors.firstName ? 'firstName-error' : undefined}
                   />
-                  {fieldErrors.firstName && <p className="text-sm text-destructive mt-1">{fieldErrors.firstName}</p>}
+                  {fieldErrors.firstName && <p id="firstName-error" className="text-sm text-destructive mt-1" role="alert">{fieldErrors.firstName}</p>}
                 </div>
                 <div>
                   <label htmlFor="lastName" className="block text-sm font-medium text-foreground mb-2">
@@ -184,8 +186,10 @@ const Contact = () => {
                     onChange={(e) => handleChange('lastName', e.target.value)}
                     placeholder="Doe"
                     maxLength={100}
+                    aria-invalid={!!fieldErrors.lastName}
+                    aria-describedby={fieldErrors.lastName ? 'lastName-error' : undefined}
                   />
-                  {fieldErrors.lastName && <p className="text-sm text-destructive mt-1">{fieldErrors.lastName}</p>}
+                  {fieldErrors.lastName && <p id="lastName-error" className="text-sm text-destructive mt-1" role="alert">{fieldErrors.lastName}</p>}
                 </div>
               </div>
 
@@ -200,8 +204,10 @@ const Contact = () => {
                   onChange={(e) => handleChange('email', e.target.value)}
                   placeholder="john@example.com"
                   maxLength={255}
+                  aria-invalid={!!fieldErrors.email}
+                  aria-describedby={fieldErrors.email ? 'email-error' : undefined}
                 />
-                {fieldErrors.email && <p className="text-sm text-destructive mt-1">{fieldErrors.email}</p>}
+                {fieldErrors.email && <p id="email-error" className="text-sm text-destructive mt-1" role="alert">{fieldErrors.email}</p>}
               </div>
 
               <div>
@@ -215,8 +221,10 @@ const Contact = () => {
                   onChange={(e) => handleChange('phone', e.target.value)}
                   placeholder="+1 (519) 555-0000"
                   maxLength={20}
+                  aria-invalid={!!fieldErrors.phone}
+                  aria-describedby={fieldErrors.phone ? 'phone-error' : undefined}
                 />
-                {fieldErrors.phone && <p className="text-sm text-destructive mt-1">{fieldErrors.phone}</p>}
+                {fieldErrors.phone && <p id="phone-error" className="text-sm text-destructive mt-1" role="alert">{fieldErrors.phone}</p>}
               </div>
 
               <div>
@@ -230,8 +238,10 @@ const Contact = () => {
                   placeholder="Tell us about your project..."
                   rows={4}
                   maxLength={2000}
+                  aria-invalid={!!fieldErrors.message}
+                  aria-describedby={fieldErrors.message ? 'message-error' : undefined}
                 />
-                {fieldErrors.message && <p className="text-sm text-destructive mt-1">{fieldErrors.message}</p>}
+                {fieldErrors.message && <p id="message-error" className="text-sm text-destructive mt-1" role="alert">{fieldErrors.message}</p>}
               </div>
 
               <Button
