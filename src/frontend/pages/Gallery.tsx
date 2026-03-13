@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { galleryItems, galleryCategories, type GalleryItem } from '@/data/gallery';
 import GalleryGrid from '@/components/GalleryGrid';
+import VideoGallery from '@/components/VideoGallery';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
