@@ -63,6 +63,9 @@ Deno.serve(async (req) => {
   }
 
   try {
+    const originError = verifyOrigin(req);
+    if (originError) return originError;
+
     const ip = req.headers.get("x-forwarded-for") ?? "unknown";
     if (isRateLimited(ip)) {
       return new Response(
