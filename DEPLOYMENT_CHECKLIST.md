@@ -54,6 +54,9 @@
 - [x] **Hero image `loading="eager"`** — Changed from `loading="lazy"` to `loading="eager"` with `fetchPriority="high"`.
 - [x] **Skip-to-content link** — Added visually hidden skip link as first focusable element on Index page.
 - [x] **Gallery grid images dimensions** — Added `width={800} height={600}` to all gallery images.
+- [x] **Form accessibility** — `aria-invalid`, `aria-describedby`, `role="alert"` on all form inputs and error messages. `noValidate` on forms.
+- [x] **Before/After slider** — `role="slider"`, `aria-valuenow`, `aria-label`, keyboard support (arrow keys).
+- [x] **Star ratings** — `aria-label` on star rating components.
 
 ### Performance
 
