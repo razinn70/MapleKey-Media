@@ -8,6 +8,22 @@ const corsHeaders = {
 
 const ADMIN_EMAIL = "maplekeymedia@gmail.com";
 
+// Server-side price catalog (single source of truth)
+const PACKAGE_CATALOG: Record<string, number> = {
+  standard: 200,
+  professional: 450,
+  premium: 750,
+};
+
+const ADD_ON_CATALOG: Record<string, number> = {
+  drone: 75,
+  twilight: 100,
+  walkthrough: 75,
+  "ad-consultation": 200,
+  "social-reels": 150,
+  "lead-funnel": 350,
+};
+
 // Simple in-memory rate limiting (per function instance)
 const rateMap = new Map<string, number[]>();
 function isRateLimited(ip: string, maxPerMin = 5): boolean {
@@ -47,8 +63,21 @@ Deno.serve(async (req) => {
     if (!body.property_address || sanitize(body.property_address).length < 5) errors.push("Address must be at least 5 characters");
     if (!body.session_date) errors.push("Session date required");
     if (!body.package_id || !body.package_name) errors.push("Package selection required");
-    if (typeof body.base_price !== "number" || typeof body.total_price !== "number") errors.push("Invalid pricing");
     if (body.notes && body.notes.length > 1000) errors.push("Notes must be under 1000 characters");
+
+    // Validate package_id against server catalog
+    const basePrice = PACKAGE_CATALOG[body.package_id];
+    if (basePrice === undefined) {
+      errors.push("Unknown package selected");
+    }
+
+    // Validate add-on IDs against server catalog
+    const addOnIds: string[] = body.add_on_ids ?? [];
+    for (const addOnId of addOnIds) {
+      if (ADD_ON_CATALOG[addOnId] === undefined) {
+        errors.push(`Unknown add-on: ${addOnId}`);
+      }
+    }
 
     // Validate date is in the future and not Sunday
     if (body.session_date) {
@@ -64,6 +93,13 @@ Deno.serve(async (req) => {
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
+
+    // Compute prices server-side (ignore client-supplied values)
+    const computedBasePrice = basePrice!;
+    const computedTotalPrice = computedBasePrice + addOnIds.reduce(
+      (sum, id) => sum + (ADD_ON_CATALOG[id] ?? 0),
+      0
+    );
 
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL")!,
@@ -90,9 +126,9 @@ Deno.serve(async (req) => {
       idempotency_key: body.idempotency_key || null,
       package_id: sanitize(body.package_id),
       package_name: sanitize(body.package_name),
-      base_price: body.base_price,
-      add_on_ids: body.add_on_ids ?? [],
-      total_price: body.total_price,
+      base_price: computedBasePrice,
+      add_on_ids: addOnIds,
+      total_price: computedTotalPrice,
       session_date: body.session_date,
       client_name: sanitize(body.client_name),
       client_email: body.client_email.trim().toLowerCase(),
@@ -127,8 +163,8 @@ Deno.serve(async (req) => {
           package_name: sanitize(body.package_name),
           session_date: body.session_date,
           property_address: sanitize(body.property_address),
-          total_price: body.total_price,
-          add_on_ids: body.add_on_ids ?? [],
+          total_price: computedTotalPrice,
+          add_on_ids: addOnIds,
           notes: body.notes ? sanitize(body.notes) : null,
         },
       }),
