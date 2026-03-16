@@ -1,17 +1,14 @@
-import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import SEO from '@/components/SEO';
 
 const PrivacyPolicy = () => {
-  useEffect(() => {
-    document.title = 'Privacy Policy | MapleKey Media';
-  }, []);
-
   return (
     <div className="min-h-screen bg-background">
+      <SEO title="Privacy Policy" description="MapleKey Media privacy policy. Learn how we collect, use, and protect your personal information." canonical="/privacy" />
       <Header />
       <main className="pt-24 pb-24">
         <div className="container mx-auto px-6 max-w-3xl">

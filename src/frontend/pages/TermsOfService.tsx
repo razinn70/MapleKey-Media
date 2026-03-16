@@ -1,17 +1,14 @@
-import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import SEO from '@/components/SEO';
 
 const TermsOfService = () => {
-  useEffect(() => {
-    document.title = 'Terms of Service | MapleKey Media';
-  }, []);
-
   return (
     <div className="min-h-screen bg-background">
+      <SEO title="Terms of Service" description="MapleKey Media terms of service. Read about our service agreement, booking policies, and usage terms." canonical="/terms" />
       <Header />
       <main className="pt-24 pb-24">
         <div className="container mx-auto px-6 max-w-3xl">

@@ -7,6 +7,7 @@ import GalleryGrid from '@/components/GalleryGrid';
 import VideoGallery from '@/components/VideoGallery';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import SEO from '@/components/SEO';
 
 const ITEMS_PER_PAGE = 12;
 
@@ -14,9 +15,7 @@ const GalleryPage = () => {
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
 
-  useEffect(() => {
-    document.title = 'Portfolio | MapleKey Media';
-  }, []);
+  // SEO handled by <SEO /> component below
 
   const photoItems = useMemo(() => {
     const items = activeCategory === 'All' || activeCategory === 'Photography'
@@ -47,6 +46,11 @@ const GalleryPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Portfolio"
+        description="Browse MapleKey Media's real estate photography, cinematic video tours, drone aerial shots, and marketing materials. See how we help Ontario realtors sell faster."
+        canonical="/gallery"
+      />
       <Header />
       <main className="pt-24 pb-24">
         <div className="container mx-auto px-6">

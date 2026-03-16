@@ -11,14 +11,18 @@ import {
 import { faqs } from '@/data/faqs';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import SEO from '@/components/SEO';
 
 const LearnMore = () => {
-  useEffect(() => {
-    document.title = 'Learn More | MapleKey Media';
-  }, []);
+  // SEO handled by <SEO /> component below
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Learn More"
+        description="Frequently asked questions about MapleKey Media's real estate photography, video tours, drone aerial, and marketing services in Southern Ontario."
+        canonical="/learn-more"
+      />
       <Header />
       <main className="pt-24 pb-24">
         {/* Hero-style intro */}

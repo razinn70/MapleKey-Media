@@ -4,6 +4,7 @@ import { CheckCircle, Calendar, MapPin, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import SEO from '@/components/SEO';
 import { analytics } from '@/utils/analytics';
 
 const BookingConfirmed = () => {
@@ -15,7 +16,7 @@ const BookingConfirmed = () => {
   const total = searchParams.get('total') ?? '';
 
   useEffect(() => {
-    document.title = 'Booking Confirmed — MapleKey Media';
+    document.title = 'Booking Confirmed | MapleKey Media';
     analytics.bookingConfirmed({
       package_name: packageName,
       total_price: Number(total) || 0,
