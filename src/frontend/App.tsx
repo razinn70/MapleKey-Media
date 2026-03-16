@@ -24,13 +24,14 @@ const PageFallback = () => (
 );
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <BrowserRouter>
-        <ErrorBoundary section="application">
-          <Suspense fallback={<PageFallback />}>
-            <Routes>
+  <HelmetProvider>
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <BrowserRouter>
+          <ErrorBoundary section="application">
+            <Suspense fallback={<PageFallback />}>
+              <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/gallery" element={<Gallery />} />
               <Route path="/learn-more" element={<LearnMore />} />
