@@ -18,6 +18,11 @@ const LearnMore = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Learn More"
+        description="Frequently asked questions about MapleKey Media's real estate photography, video tours, drone aerial, and marketing services in Southern Ontario."
+        canonical="/learn-more"
+      />
       <Header />
       <main className="pt-24 pb-24">
         {/* Hero-style intro */}

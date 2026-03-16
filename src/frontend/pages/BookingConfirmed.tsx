@@ -16,7 +16,7 @@ const BookingConfirmed = () => {
   const total = searchParams.get('total') ?? '';
 
   useEffect(() => {
-    document.title = 'Booking Confirmed — MapleKey Media';
+    document.title = 'Booking Confirmed | MapleKey Media';
     analytics.bookingConfirmed({
       package_name: packageName,
       total_price: Number(total) || 0,
