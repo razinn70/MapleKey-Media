@@ -11,6 +11,7 @@ import {
 import { faqs } from '@/data/faqs';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import SEO from '@/components/SEO';
 
 const LearnMore = () => {
   useEffect(() => {
