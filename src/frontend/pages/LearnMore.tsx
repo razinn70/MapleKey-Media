@@ -14,9 +14,7 @@ import Footer from '@/components/Footer';
 import SEO from '@/components/SEO';
 
 const LearnMore = () => {
-  useEffect(() => {
-    document.title = 'Learn More | MapleKey Media';
-  }, []);
+  // SEO handled by <SEO /> component below
 
   return (
     <div className="min-h-screen bg-background">

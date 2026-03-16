@@ -4,15 +4,16 @@ import Services from '@/components/Services';
 import PricingAndBooking from '@/components/PricingAndBooking';
 import Portfolio from '@/components/Portfolio';
 import BeforeAfterSlider from '@/components/BeforeAfterSlider';
-
 import About from '@/components/About';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 import ErrorBoundary from '@/components/ErrorBoundary';
+import SEO from '@/components/SEO';
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
+      <SEO canonical="/" />
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md"

@@ -15,9 +15,7 @@ const GalleryPage = () => {
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
 
-  useEffect(() => {
-    document.title = 'Portfolio | MapleKey Media';
-  }, []);
+  // SEO handled by <SEO /> component below
 
   const photoItems = useMemo(() => {
     const items = activeCategory === 'All' || activeCategory === 'Photography'
