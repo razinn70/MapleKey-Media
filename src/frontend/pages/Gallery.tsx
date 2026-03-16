@@ -7,6 +7,7 @@ import GalleryGrid from '@/components/GalleryGrid';
 import VideoGallery from '@/components/VideoGallery';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import SEO from '@/components/SEO';
 
 const ITEMS_PER_PAGE = 12;
 
