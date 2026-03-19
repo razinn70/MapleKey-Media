@@ -15,23 +15,34 @@ async function sendEmail(to: string, subject: string, html: string) {
     return;
   }
 
-  const res = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${resendKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from: "MapleKey Media <bookings@maplekey.media>",
-      to: [to],
-      subject,
-      html,
-    }),
-  });
+  const PRIMARY_FROM = "MapleKey Media <bookings@maplekey.media>";
+  const FALLBACK_FROM = "MapleKey Media <onboarding@resend.dev>";
 
-  if (!res.ok) {
-    const err = await res.text();
-    console.error("Resend error:", err);
+  async function attemptSend(from: string) {
+    return fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${resendKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ from, to: [to], subject, html }),
+    });
+  }
+
+  const res = await attemptSend(PRIMARY_FROM);
+  if (res.ok) return;
+
+  const err = await res.text();
+  console.error("Resend primary error:", err);
+
+  // Retry with fallback sender if domain not verified (403)
+  if (res.status === 403) {
+    console.log("Retrying with fallback sender...");
+    const fallbackRes = await attemptSend(FALLBACK_FROM);
+    if (!fallbackRes.ok) {
+      const fallbackErr = await fallbackRes.text();
+      console.error("Resend fallback error:", fallbackErr);
+    }
   }
 }
 
