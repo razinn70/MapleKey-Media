@@ -168,7 +168,8 @@ const BookingForm = ({ selectedPackage, selectedAddOnIds, selectedAddOns, base, 
       if (data?.error) throw new Error(data.error);
 
       if (data?.url) {
-        window.open(data.url, '_blank');
+        window.location.assign(data.url);
+        return;
       }
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Something went wrong. Please try again.';
