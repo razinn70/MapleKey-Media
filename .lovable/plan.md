@@ -1,61 +1,27 @@
 
 
-# MapleKey Media — Logo, Pricing & Add-Ons Update
+## Fix Email Notifications
 
-## Task 1: Replace Logo Asset
+### The Problem
+All emails from the `send-email` backend function are failing with a 403 error. Resend requires domain verification before it allows sending emails from that domain. Currently, the `from` address is set to `bookings@maplekey.media`, but `maplekey.media` is not verified in Resend.
 
-Copy the uploaded logo (`user-uploads://Untitled_design-2.jpg`) to `src/frontend/assets/logo.png` (overwriting the existing file).
+### What You Need to Do (Outside Lovable)
 
-Both `Header.tsx` and `Footer.tsx` already import from `@/assets/logo.png`, so no code changes are needed -- the new logo will appear automatically in both locations.
+1. **Log into your Resend account** at [resend.com/domains](https://resend.com/domains)
+2. **Add the domain** `maplekey.media`
+3. **Add the DNS records** Resend provides (typically 3 records: SPF, DKIM, and an MX record) to your domain's DNS settings (wherever you manage maplekey.media — GoDaddy, Cloudflare, Namecheap, etc.)
+4. **Wait for verification** — usually takes a few minutes, sometimes up to 48 hours
 
-Also copy to `public/logo.png` to keep the public asset in sync.
+### Code Change (Quick Fix While You Verify)
 
-## Task 2: Package Pricing Updates
+As a temporary fallback, update the `send-email` function to use Resend's free shared domain (`onboarding@resend.dev`) when sending fails, so you still receive admin notifications while domain verification is pending.
 
-**File: `src/frontend/data/pricing.ts`**
+**File: `supabase/functions/send-email/index.ts`**
+- Update the `sendEmail` function to retry with `onboarding@resend.dev` as the `from` address if the first attempt returns a 403 domain error
+- This ensures you receive booking and contact notifications immediately
 
-Update the three packages:
-
-| Current | New |
-|---------|-----|
-| Starter / $299 | Standard / $200 |
-| Professional / $599 | Professional / $450 |
-| Premium / $999 | Premium / $750 |
-
-Update the `id` for Starter from `'starter'` to `'standard'` and name from `'Starter'` to `'Standard'`.
-
-The `PricingAndBooking.tsx` component defaults to `packages[1].id` and renders dynamically from the data, so pricing cards, summary, and booking total will all update automatically.
-
-## Task 3: Premium Package Content Change
-
-In the Premium package `included` array:
-- Remove `'Twilight Photography'`
-- Add `'Ad Consultation'`
-
-## Task 4: Add-Ons Pricing & Item Changes
-
-Replace the entire `addOns` array with:
-
-| ID | Label | Price |
-|----|-------|-------|
-| drone | Drone Aerial Add-On | $75 |
-| twilight | Twilight Photography | $100 |
-| walkthrough | Walkthrough Video | $75 |
-| ad-consultation | Ad Consultation | $200 |
-| social-reels | Social Media Reel Package | $150 |
-| lead-funnel | Lead Funnel | $350 |
-
-Removed: Floor Plan, Virtual Staging, Meta Ads Campaign Setup.
-
-## Task 5: Architecture
-
-All changes are in `src/frontend/data/pricing.ts`. The UI components (`PricingAndBooking.tsx`) and utility (`utils/pricing.ts`) already consume this data file as a single source of truth. No structural changes needed.
-
-## Files Summary
-
-| File | Action |
-|------|--------|
-| `src/frontend/assets/logo.png` | Replace with uploaded logo |
-| `public/logo.png` | Replace with uploaded logo |
-| `src/frontend/data/pricing.ts` | Edit -- update packages (names, prices, features) and add-ons |
+### Summary
+- 1 edge function updated with a fallback sender
+- No frontend changes needed
+- Once you verify `maplekey.media` in Resend, the primary sender will work and the fallback won't trigger
 
