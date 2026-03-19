@@ -17,7 +17,7 @@ const ALLOWED_ORIGINS = new Set([
 
 function isAllowedOrigin(origin: string): boolean {
   if (ALLOWED_ORIGINS.has(origin)) return true;
-  if (origin.endsWith(".lovable.app")) return true;
+  if (origin.endsWith(".lovable.app") || origin.endsWith(".lovableproject.com")) return true;
   return false;
 }
 
