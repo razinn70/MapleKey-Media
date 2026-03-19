@@ -40,9 +40,15 @@ const ALLOWED_ORIGINS = new Set([
   "http://localhost:8080",
 ]);
 
+function isAllowedOrigin(origin: string): boolean {
+  if (ALLOWED_ORIGINS.has(origin)) return true;
+  if (origin.endsWith(".lovable.app")) return true;
+  return false;
+}
+
 function verifyOrigin(req: Request): Response | null {
   const origin = req.headers.get("origin") ?? "";
-  if (!ALLOWED_ORIGINS.has(origin)) {
+  if (!isAllowedOrigin(origin)) {
     return new Response(
       JSON.stringify({ error: "Invalid request origin" }),
       { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
@@ -125,8 +131,8 @@ serve(async (req) => {
       customer_email: customerId ? undefined : customerEmail || undefined,
       line_items: lineItems,
       mode: "payment",
-      success_url: `${ALLOWED_ORIGINS.has(req.headers.get("origin") ?? "") ? req.headers.get("origin") : "https://maplekeymedia.ca"}/booking/confirmed?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${ALLOWED_ORIGINS.has(req.headers.get("origin") ?? "") ? req.headers.get("origin") : "https://maplekeymedia.ca"}/#pricing`,
+      success_url: `${isAllowedOrigin(req.headers.get("origin") ?? "") ? req.headers.get("origin") : "https://maplekeymedia.ca"}/booking/confirmed?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${isAllowedOrigin(req.headers.get("origin") ?? "") ? req.headers.get("origin") : "https://maplekeymedia.ca"}/#pricing`,
       metadata: {
         customer_name: customerName || "",
       },
