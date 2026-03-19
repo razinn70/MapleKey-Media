@@ -40,9 +40,15 @@ const ALLOWED_ORIGINS = new Set([
   "http://localhost:8080",
 ]);
 
+function isAllowedOrigin(origin: string): boolean {
+  if (ALLOWED_ORIGINS.has(origin)) return true;
+  if (origin.endsWith(".lovable.app")) return true;
+  return false;
+}
+
 function verifyOrigin(req: Request): Response | null {
   const origin = req.headers.get("origin") ?? "";
-  if (!ALLOWED_ORIGINS.has(origin)) {
+  if (!isAllowedOrigin(origin)) {
     return new Response(
       JSON.stringify({ error: "Invalid request origin" }),
       { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
